@@ -1,0 +1,191 @@
+<div class="container-fluid">
+    <div class="row">
+      <!-- Header -->
+      <header class="col-12 bg-primary text-white p-3">
+        <h1>Header</h1>
+      </header>
+    </div>
+    <div class="row">
+      <!-- Left Sidebar -->
+      <aside class="col-2 bg-light p-3">
+        <nav>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Link 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link 2</a>
+            </li>
+          </ul>
+  
+  
+  
+          <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+    <!--         <li class="treeview"> -->
+    <!--           <a href="#"> -->
+    <!--             <i class="fa fa-dashboard"></i> <span>Dashboard</span> -->
+    <!--             <span class="pull-right-container"> -->
+    <!--               <i class="fa fa-angle-left pull-right"></i> -->
+    <!--             </span> -->
+    <!--           </a> -->
+    <!--           <ul class="treeview-menu"> -->
+    <!--             <li><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li> -->
+    <!--             <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li> -->
+    <!--           </ul> -->
+    <!--         </li> -->
+            
+            <!-- <li class="treeview">
+              <a href="#">
+                <i class="fa fa-building"></i> <span>Hotel</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="hotel/create"><i class="fa fa-circle-o"></i> Add Hotel</a></li>
+                <li><a href="hotelPaymentGateway/create"><i class="fa fa-circle-o"></i> Payment Gateway</a></li>
+                <li><a href="paymentAccount/create"><i class="fa fa-circle-o"></i> Payment Account</a></li>
+                <li><a href="financialYear/create"><i class="fa fa-circle-o"></i> Financial Year</a></li>
+              </ul>
+            </li> -->
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-hotel"></i> <span>Room</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a ><i class="fa fa-circle-o"></i> Add Hotel Plan Master</a></li>
+                <li><a ><i class="fa fa-circle-o"></i> Hotel Plan Master List</a></li>
+                <li><a routerLink="addRoom"><i class="fa fa-circle-o"></i> Add Room</a></li>
+                <li><a routerLink="room" routerLinkActive="active"><i class="fa fa-circle-o"></i> Room List</a></li>
+                <li><a ><i class="fa fa-circle-o"></i> Add Room Type</a></li>
+                <li><a ><i class="fa fa-circle-o"></i> Room Type List</a></li>
+              </ul>
+            </li>
+            <!-- <li class="treeview">
+              <a href="#">
+                <i class="fa fa-hotel"></i> <span>Payment Report</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="paymentDetails/dashboard"><i class="fa fa-circle-o"></i> Payment Dashboard</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-user"></i> <span>Employee</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="employee/showCreateEmployee"><i class="fa fa-circle-o"></i> Add Employee</a></li>
+                <li><a href="employee/showCreateEmployee"><i class="fa fa-circle-o"></i> Employee List</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="email/showInbox"><i class="fa fa-circle-o"></i> Inbox</a></li>
+                <li><a href="email/showComposeEmail"><i class="fa fa-circle-o"></i> Compose</a></li> -->
+    <!--             <li><a href="employee/showCreateEmployee"><i class="fa fa-circle-o"></i> Employee List</a></li> -->
+              <!-- </ul> -->
+            <!-- </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Payroll</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <security:authorize access="hasAnyRole('ROLE_SALARY_PROCESS')">
+                  <li><a href=""><i class="fa fa-circle-o"></i> Salary Process</a></li>
+                </security:authorize>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-cog"></i> <span>Settings</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <security:authorize access="hasAnyRole('ROLE_ADD_ROLE')">
+                  <li><a href="role/showCreateRole"><i class="fa fa-circle-o"></i> Add Role</a></li>
+                </security:authorize>
+                  <li><a href="role/retrieveRoleList"><i class="fa fa-circle-o"></i> Role List</a></li>
+              </ul>
+            </li>
+            
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Module</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="module/showCreateModule"><i class="fa fa-circle-o"></i>Add Module</a></li>
+                <li><a href="module/retrieveModuleList"><i class="fa fa-circle-o"></i>Module List</a></li>
+                <li><a href="privilege/showCreatePrivilege"><i class="fa fa-circle-o"></i>Add Privilege</a></li>
+              </ul>
+            </li>
+            
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Theme</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="theme/showCreateTheme"><i class="fa fa-circle-o"></i> Add Theme</a></li>
+              </ul>
+            </li> -->
+           
+          </ul>
+  
+  
+  
+        </nav>
+      </aside>
+      <!-- Main Content -->
+      <main class="col-10 p-3">
+        <h2>Main Content</h2>
+        <p>This is the body of the page.</p>
+  
+        <router-outlet></router-outlet>
+      </main>
+      <!-- Right Sidebar -->
+      <!-- <aside class="col-2 bg-light p-3">
+        <nav> -->
+          <!-- <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Link 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link 2</a>
+            </li>
+          </ul> -->
+        <!-- </nav>
+      </aside> -->
+    </div>
+    <div class="row">
+      <!-- Footer -->
+      <footer class="col-12 bg-secondary text-white p-3">
+        <p>Footer</p>
+      </footer>
+    </div>
+  </div>
