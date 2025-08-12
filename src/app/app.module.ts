@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+// import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +29,14 @@ import { appConfig } from './app.config';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home/home.component';
 import { AuthInterceptor } from './keycloak-angular-module/auth.interceptor';
+import { MatMenuModule } from '@angular/material/menu';
+import { TopMenuComponent } from './top-menu/top-menu/top-menu.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PlanMasterComponent } from './hotel/plan-master/plan-master.component';
+import { StoreModule } from '@ngrx/store';
+import { dataReducer } from './initialize-app/reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { DataEffects } from './initialize-app/data-effects';
 
 @NgModule({
   declarations: [
@@ -38,7 +46,9 @@ import { AuthInterceptor } from './keycloak-angular-module/auth.interceptor';
     ModalBootstrapComponent,
     CreateRoomComponent,
     RoomTypeComponent,
-    HomeComponent
+    HomeComponent,
+    TopMenuComponent,
+    PlanMasterComponent
   ],
   imports: [
     BrowserModule,
@@ -47,18 +57,23 @@ import { AuthInterceptor } from './keycloak-angular-module/auth.interceptor';
     BrowserAnimationsModule,
     MatIconModule,
     MatButtonModule,
+    MatMenuModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatExpansionModule,
     // MatTreeModule,
     BrowserModule,
     HttpClientModule,
     DataTablesModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({ data: dataReducer }),  //initialize app when starts
+    EffectsModule.forRoot([DataEffects])        //initialize app when starts
   ],
   providers: [
-    provideAnimationsAsync(), RoomService, RoomTypeService,
+    // provideAnimationsAsync(), 
+    RoomService, RoomTypeService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

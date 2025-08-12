@@ -1,3 +1,5 @@
+import { HotelPaymentGateway } from "./hotel-payment-gateway";
+
 export class PaymentAccount {
     constructor(
         paymentAccountId: String,
@@ -5,6 +7,7 @@ export class PaymentAccount {
         code: String,
         bankName: String,
         billCount: String,
+        hotelPaymentGateway: HotelPaymentGateway,
         createdBy: String,
         createdOn: Date,
         updatedBy: String,
@@ -15,6 +18,7 @@ export class PaymentAccount {
         this.code = code;
         this.bankName = bankName;
         this.billCount = billCount;
+        this.hotelPaymentGateway = hotelPaymentGateway;
         this.createdBy = createdBy;
         this.createdOn = createdOn;
         this.updatedBy = updatedBy;
@@ -26,6 +30,7 @@ export class PaymentAccount {
     code: String;
     bankName: String;
     billCount: String;
+    hotelPaymentGateway: HotelPaymentGateway;
     createdBy: String;
     createdOn: Date;
     updatedBy: String;

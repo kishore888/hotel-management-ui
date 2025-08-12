@@ -55,7 +55,7 @@ export class RoomComponent implements OnInit, OnDestroy{
   getRooms(){
     this.roomSubscription = this.roomService.getRooms().subscribe({
       next: (response) => {
-        this.roomList = response;
+        this.roomList = response;console.log('rooms : '+JSON.stringify(response))
         console.log('Constructor data : '+this.roomList);
         this.initializeDataTable();
       },

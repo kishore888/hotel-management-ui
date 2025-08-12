@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { loadData } from './initialize-app/actions';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,9 @@ export class AppComponent {
   isMobile= true;
   isCollapsed = true;
 
-  constructor(private observer: BreakpointObserver, private router: Router) {}
+  constructor(private observer: BreakpointObserver, private router: Router, private store: Store) {
+    this.store.dispatch(loadData());//dispatching calls to initialize app
+  }
 
   ngOnInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
@@ -38,13 +42,7 @@ export class AppComponent {
     }
   }
 
-  navigateToProfile() {
-    this.router.navigate(['/profile']); // Redirect to Profile Page
-  }
-
-  logout() {
-    localStorage.removeItem('token'); // Clear authentication token
-    this.router.navigate(['/login']); // Redirect to login page
-  }
-
+  /* left menu list and hide & show sub menu when click */
+  
+  
 }

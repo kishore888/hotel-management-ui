@@ -13,6 +13,15 @@ mat-toolbar{
     background-color: #E3DAC9;
 }
 
+.spacer {
+  flex-grow: 1; /* Pushes items to the right */
+}
+
+.profile-container {
+  position: absolute;
+  right: 16px; /* Ensures it stays at the top-right */
+}
+
 mat-sidenav-container {
     height:100%;
 }
@@ -24,12 +33,12 @@ mat-sidenav {
       padding-top: 4rem;
     }
 
-    .entry{
+    /* .entry{
         display: flex;
         align-items: center;
         gap: 1rem;
         padding:0.75rem;
-    }
+    } */
   }
 
 /* Move the content down so that it won't be hidden by the toolbar */
@@ -39,3 +48,16 @@ mat-sidenav-content{
         padding-top: 4rem;
     }
 }
+
+mat-sidenav{
+  background-color: #e9ecef;
+}
+
+mat-expansion-panel-header, .left-menu{
+  background-color: #f2e8e0;
+}
+
+mat-expansion-panel-header > mat-list-item {
+  background-color: beige;
+}
+

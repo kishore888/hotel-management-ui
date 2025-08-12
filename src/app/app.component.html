@@ -4,10 +4,9 @@
     <mat-icon>menu</mat-icon>
   </button>
   
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="navigateToProfile()">Profile</button>
-    <button mat-menu-item (click)="logout()">Logout</button>
-  </mat-menu>
+  <div class="profile-container">
+    <app-top-menu></app-top-menu>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container autosize>
@@ -15,48 +14,91 @@
   <!-- <mat-sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'"> -->
   <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'">
     <mat-nav-list>
-      
       <a mat-list-item>
         <span class="entry">
-            <mat-icon>house</mat-icon>
+            <mat-icon>dashboard</mat-icon>
             <span *ngIf="isCollapsed">Dashboard</span>
         </span>
       </a>
-      <a mat-list-item routerLink="room" routerLinkActive="active">
+      <!-- <a mat-list-item routerLink="room" routerLinkActive="active">
         <span class="entry">
-            <mat-icon>house</mat-icon>
-            <span *ngIf="isCollapsed">Rooms</span>
+          <mat-icon>hotel</mat-icon>
+          <span *ngIf="isCollapsed">Rooms</span>
         </span>
 
         <a mat-nav-list>
           <a mat-list-item routerLink="addRoom" routerLinkActive="active">
             <span class="entry">
-              <mat-icon>house</mat-icon>
+              <mat-icon>hotel</mat-icon>
               <span *ngIf="isCollapsed">Add Room</span>
             </span>
           </a>
           <a mat-list-item routerLink="employee" >
             <span class="entry">
-              <mat-icon>house</mat-icon>
+              <mat-icon>wc</mat-icon>
               <span *ngIf="isCollapsed">Employee</span>
             </span>
           </a>
         </a>
 
-      </a>
+      </a> -->
       <a mat-list-item routerLink="addRoom" routerLinkActive="active">
         <span class="entry">
-            <mat-icon>house</mat-icon>
+            <mat-icon>hotel</mat-icon>
             <span *ngIf="isCollapsed">Add Room</span>
         </span>
       </a>
       <a mat-list-item routerLink="employee" routerLinkActive="active">
         <span class="entry">
-            <mat-icon>house</mat-icon>
+            <mat-icon>wc</mat-icon>
             <span *ngIf="isCollapsed">Employee</span>
         </span>
       </a>
     </mat-nav-list>
+
+
+
+    <mat-nav-list class="left-menu">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="entry">
+              <mat-icon>hotel</mat-icon>
+              <span *ngIf="isCollapsed">Rooms</span>
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <mat-list-item routerLink="addRoom" routerLinkActive="active">
+            <span class="entry">
+              <mat-icon>hotel</mat-icon>
+              <span *ngIf="isCollapsed">Add Room</span>
+            </span>
+          </mat-list-item>
+          <mat-list-item routerLink="room" routerLinkActive="active">
+            <span class="entry">
+              <mat-icon>wc</mat-icon>
+              <span *ngIf="isCollapsed">Rooms</span>
+            </span>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    
+      <!-- <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Another Parent Item</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <mat-list-item>Child Item A</mat-list-item>
+          <mat-list-item>Child Item B</mat-list-item>
+        </mat-nav-list>
+      </mat-expansion-panel> -->
+    </mat-nav-list>
+    
+
+    
+
+
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- <h2>Content</h2> -->
