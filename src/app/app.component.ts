@@ -8,7 +8,8 @@ import { loadData } from './initialize-app/actions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  standalone: false
 })
 export class AppComponent {
   title = 'hotel-management-ui';

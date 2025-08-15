@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-top-menu',
   templateUrl: './top-menu.component.html',
-  styleUrl: './top-menu.component.css'
+  styleUrl: './top-menu.component.css',
+  standalone: false
 })
 export class TopMenuComponent {
   keycloakLogoutUrl = 'http://localhost:8080/realms/hotelmanagement/protocol/openid-connect/logout';

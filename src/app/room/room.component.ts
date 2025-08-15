@@ -15,7 +15,8 @@ import { KeycloakService } from 'keycloak-angular';
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
-  styleUrl: './room.component.css'
+  styleUrl: './room.component.css',
+  standalone: false
 })
 export class RoomComponent implements OnInit, OnDestroy{
   private roomSubscription: Subscription = new Subscription();

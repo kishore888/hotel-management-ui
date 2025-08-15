@@ -5,7 +5,8 @@ import { ModalDismissReasons, NgbActiveModal, NgbDatepickerModule, NgbModal } fr
 @Component({
   selector: 'app-modal-bootstrap',
   templateUrl: './modal-bootstrap.component.html',
-  styleUrl: './modal-bootstrap.component.css'
+  styleUrl: './modal-bootstrap.component.css',
+  standalone: false
 })
 export class ModalBootstrapComponent implements OnInit{
   // constructor(public modalRef: MdbModalRef<ModalComponent>) {}

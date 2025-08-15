@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { CreateRoomComponent } from './room/create-room/create-room.component';
 import { AuthGuard } from './keycloak-angular-module/AuthGuard';
-import { HomeComponent } from './home/home/home.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
   {path:"",redirectTo:"room",pathMatch:"full"},
