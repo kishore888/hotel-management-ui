@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Room } from '../../model/room.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,15 +8,18 @@ import { RoomTypeService } from '../room-type/room-type.service';
 import { PlanMasterService } from '../../hotel/plan-master/plan-master.service';
 import { HotelPlanMaster } from '../../model/hotel-plan-master.model';
 import { CreateRoomService } from './create-room.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-room',
   templateUrl: './create-room.component.html',
   styleUrl: './create-room.component.css',
-  standalone: false
+  standalone: true,
+  imports: [FormsModule]
 })
   export class CreateRoomComponent {
-    room: Room ;
+    // @Input() room: Room;
+    room: Room = {} as Room;
     roomTypes: RoomType[] = [];
     hotelPlanMasters: HotelPlanMaster[] = [];
     private roomTypeSubscription: Subscription = new Subscription();
@@ -56,7 +59,13 @@ import { CreateRoomService } from './create-room.service';
 
     onSubmit(form: any): void {
       console.log('form data: ',form.value);
-      this.createRoomService.createRoom(form.value);
+      const payload = {
+        ...form.value,
+        hotel: { hotelId: this.room.hotel.hotelId },
+        //  hotelPlanMaster: { hotelPlanMasterId: form.value.hotelPlanMasterId },
+      };
+
+      this.createRoomService.createRoom(payload);
     }
 
 }

@@ -1,1 +1,99 @@
-<button (click)="logout()">Logout</button>
+<nav class="top-menu">
+  <ul>
+    <li><a (click)="scrollTo('home')">Home</a></li>
+    <li><a (click)="scrollTo('about')">About</a></li>
+    <li><a (click)="scrollTo('modules')">Modules</a></li>
+    <li><a (click)="scrollTo('apps')">Apps</a></li>
+    <li><a (click)="scrollTo('pricing')">Pricing</a></li>
+    <li><a (click)="scrollTo('contact')">Contact</a></li>
+    <li><a (click)="login()">Sign In</a></li>
+  </ul>
+</nav>
+
+<section id="home">
+  <h2>Welcome to Our Hotel</h2>
+  <div class="slider">
+    <img src="assets/deluxe.jpeg" alt="Hotel">
+    <img src="assets/deluxe.jpeg" alt="Room">
+    <img src="assets/deluxe.jpeg" alt="Room">
+  </div>
+</section>
+<section id="about">
+  <h2>About Us</h2>
+  <p>
+    Our Hotel Management System provides seamless booking, customer service,
+    and staff management to ensure the best hospitality experience.
+  </p>
+</section>
+<section id="modules">
+  <h2>Modules</h2>
+  <div class="card-container">
+    <div class="card">
+      <!-- <img src="assets/room.png" alt="Room Module"> -->
+      <h3>Room Module</h3>
+      <p class="description">Manage room availability, categories, and bookings.</p>
+    </div>
+    <div class="card">
+      <!-- <img src="assets/payment.png" alt="Payment Module"> -->
+      <h3>Payment Module</h3>
+      <p class="description">Secure payment processing and billing.</p>
+    </div>
+    <!-- Add more cards for Employee, Customer, Reservation -->
+  </div>
+</section>
+<section id="apps">
+  <h2>Supported Applications</h2>
+  <p>Our system supports both laptop and mobile applications.</p>
+  <!-- <img src="assets/laptop.png" alt="Laptop App">
+  <img src="assets/mobile.png" alt="Mobile App"> -->
+</section>
+
+<section id="pricing">
+  <h2>Most Flexible Pricing & Easy Pricing</h2>
+  <div class="pricing-row">
+    <div class="pricing-card">
+      <h3>Starter</h3>
+      <ul>
+        <li>Basic Room Management</li>
+        <li>Customer Support</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <h3>Pro</h3>
+      <ul>
+        <li>Includes Starter Features</li>
+        <li>Payment Integration</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <h3>Premium</h3>
+      <ul>
+        <li>Includes Pro Features</li>
+        <li>Employee Management</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <h3>Ultimate</h3>
+      <ul>
+        <li>All Features</li>
+        <li>Advanced Analytics</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Your Email">
+    <textarea placeholder="Message"></textarea>
+    <button type="submit">Send</button>
+  </form>
+</section>
+
+<section id="signin">
+  <h2>Sign In</h2>
+  <button (click)="login()">Login with Keycloak</button>
+</section>
+

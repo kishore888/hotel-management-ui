@@ -10,9 +10,9 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
-        onLoad: 'login-required',//is working, can see login page
-         checkLoginIframe: false,//is working, can see login page
-        // onLoad: 'check-sso',
+        // onLoad: 'login-required',//is working, can see login page
+        checkLoginIframe: false,//is working, can see login page
+        onLoad: 'check-sso',
         // silentCheckSsoRedirectUri: `${window.location.origin}/assets/silent-check-sso.html`,
         //pkceMethod: 'S256',
       

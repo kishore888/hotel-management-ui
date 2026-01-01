@@ -1,0 +1,104 @@
+<div class="room-form-container">
+  <form [formGroup]="roomForm" (ngSubmit)="submitForm()">
+    <div class="container-fluid">
+      <!-- Row 1: Room Number | Room Type | Plan | Payment Account-->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Room Number</mat-label>
+            <input matInput formControlName="roomNumber" placeholder="Room Number" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Room Type</mat-label>
+            <mat-select formControlName="roomTypeId">
+              <mat-option *ngFor="let type of roomTypes" [value]="type.roomTypeId">
+                {{ type.roomType }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Plan</mat-label>
+            <mat-select formControlName="planId">
+              <mat-option *ngFor="let plan of hotelPlanMasters" [value]="plan.hotelPlanMasterId">
+                {{ plan.planName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Payment Account</mat-label>
+            <mat-select formControlName="paymentAccountId">
+              <mat-option *ngFor="let account of paymentAccounts" [value]="account.paymentAccountId">
+                {{ account.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      <!-- Row 2:  | Max Adults | Max Kids | Status | Room Charges -->
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Max No. of Adults</mat-label>
+            <input matInput type="number" formControlName="maxNoOfAdults" placeholder="Max Adults" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Max No. of Kids</mat-label>
+            <input matInput type="number" formControlName="maxNoOfKids" placeholder="Max Kids" />
+          </mat-form-field>
+        </div>
+        
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <input matInput formControlName="status" placeholder="Status" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Room Charges (₹)</mat-label>
+            <input matInput type="number" formControlName="roomCharges" placeholder="Room Charges" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- File Upload (full width) -->
+      <div class="row mb-4">
+        <div class="col-6">
+          <label for="fileUpload" class="form-label">Upload Room Images</label>
+          <input id="fileUpload" class="form-control" type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
+        </div>
+      </div>
+
+      <!-- Image Preview (full width) -->
+      <div class="row mb-3" *ngIf="selectedImages.length > 0">
+        <div class="col-6">
+          <h5>Preview Selected Images</h5>
+          <p-carousel [value]="selectedImages" [numVisible]="1" [circular]="true">
+            <ng-template pTemplate="item" let-img>
+              <img [src]="img" alt="Room Image" style="width:100%; border-radius:8px;" />
+            </ng-template>
+          </p-carousel>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="row">
+        <div class="col-12">
+          <button mat-raised-button color="primary" type="submit" [disabled]="roomForm.invalid">Create Room</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,18 +1,12 @@
-import { createSelector } from '@ngrx/store';
-import { AppState } from './app-state';
-// import { AppState } from './app.state';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { AppState, RoomState } from './app-state';
 
-export const selectHotel = createSelector(
-  (state: AppState) => state.hotel,
-  hotel => hotel
-);
+//hotel
+export const selectHotelFeature = createFeatureSelector<AppState>('data');
+export const selectHotel = createSelector(selectHotelFeature, (state: AppState) => state.hotel);
 
-export const selectProducts = createSelector(
-  (state: AppState) => state.products,
-  products => products
-);
-
-export const selectOrders = createSelector(
-  (state: AppState) => state.orders,
-  orders => orders
-);
+//Rooms
+export const selectRoomState = createFeatureSelector<RoomState>('rooms'); 
+export const selectAllRooms = createSelector( selectRoomState, (state: RoomState) => state.rooms ); 
+export const selectRoomsLoading = createSelector( selectRoomState, (state: RoomState) => state.loading ); 
+export const selectRoomsError = createSelector( selectRoomState, (state: RoomState) => state.error );

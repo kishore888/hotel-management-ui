@@ -1,0 +1,27 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!-- chatbot-icon.component.html -->
+<button class="chatbot-button" (click)="togglePopup()"><mat-icon>comment</mat-icon></button>
+
+<!-- chatbot.component.html -->
+<div *ngIf="showPopup" class="chat-window chatbot-popup">
+    <div class="chat-header">
+      <h4>KPI Assisst Chatbot</h4>
+    </div>
+  
+    <div class="chat-messages">
+      <div *ngFor="let msg of messages">
+        <div class="user-msg">{{ msg.user }}</div>
+        <div class="ai-msg">{{ msg.ai }}</div>
+      </div>
+    </div>
+  
+    <div class="chat-footer">
+      <input [(ngModel)]="userMessage" placeholder="Type your message..." />
+      <button (click)="sendMessage()">
+        <span class="material-icons">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+  

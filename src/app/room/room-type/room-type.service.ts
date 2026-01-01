@@ -14,4 +14,15 @@ export class RoomTypeService {
     const headers = {'Content-Type': 'application/json'};
     return this.http.get<RoomType[]>('http://localhost:8880/room/roomType/retrieveRoomTypes', {headers});
   }
+
+  createRoomType(formData: any) {
+    const headers = {'Content-Type': 'application/json'};
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json'
+    // });
+    this.http.post('http://localhost:8880/room/roomType/create', formData, {headers}).subscribe(response => {
+      console.log('Form submitted successfully', response);
+    });;
+    
+  }
 }

@@ -1,45 +1,43 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-top-menu',
   templateUrl: './top-menu.component.html',
   styleUrl: './top-menu.component.css',
-  standalone: false
+  standalone: true,
+  imports: [
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
+  ]
 })
 export class TopMenuComponent {
-  keycloakLogoutUrl = 'http://localhost:8080/realms/hotelmanagement/protocol/openid-connect/logout';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private keycloak: KeycloakService) {}
 
   navigateToProfile() {
     this.router.navigate(['/profile']); // Navigate dynamically
   }
 
-  logout2() {
-    // localStorage.clear(); // Clears stored tokens and user details
-    // sessionStorage.clear(); // Clears session-based authentication data
-    // localStorage.removeItem('token');
-    // window.location.href = `${this.keycloakLogoutUrl}?redirect_uri=${encodeURIComponent(window.location.origin + '/login')}`;
+  async logout(): Promise<void> {
+    try {
+      // clear local state first (optional)
+      localStorage.clear();
+      sessionStorage.clear();
 
-    fetch(this.keycloakLogoutUrl, {
-    method: 'POST',
-    credentials: 'include'
-  }).then(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.location.href = 'http://localhost:4200'; // Redirect after logout
-  }).catch(error => console.error('Logout failed:', error));
-  }
-
-  logout() {
-    const keycloakLogoutUrl = 'http://localhost:8080/realms/hotelmanagement/protocol/openid-connect/logout';
-    // const redirectUri = encodeURIComponent(window.location.origin + '/login');
-    const redirectUri = encodeURIComponent('http://localhost:4200'); // Redirect to your Angular app
-    localStorage.clear();
-    sessionStorage.clear();
-    
-    window.location.href = `${keycloakLogoutUrl}?redirect_uri=${redirectUri}`;
+      // keycloak-angular handles logout and redirect
+      const redirect = window.location.origin + '/';
+      await this.keycloak.logout(redirect);
+    } catch (err) {
+      console.error('logout failed', err);
+      // fallback: navigate to home
+      window.location.href = window.location.origin + '/';
+    }
   }
 
 

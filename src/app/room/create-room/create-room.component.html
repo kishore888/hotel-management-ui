@@ -12,16 +12,17 @@
             <!-- form start -->
             <!-- <form role="form" id="" name="" action="room/create" method="POST"> -->
             <form #roomForm="ngForm" (ngSubmit)="onSubmit(roomForm)">
-              <div class="box-body">
-                <div class="col-md-6">
+              <div class="box-body row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="roomNumber">Room Number</label>
-	                  <input type="hidden" class="form-control" id="roomId" name="roomId" [(ngModel)]="room.roomId" placeholder="Room Id">
-					  <input type="hidden" class="form-control" id="hotelId" name="room.hotel.hotelId" [(ngModel)]="room.hotel.hotelId" placeholder="Hotel Id">
+	                  <input type="hidden" class="form-control" id="roomId" name="roomId" [value]="room.roomId" placeholder="Room Id">
+					  <input type="hidden" class="form-control" id="hotelId" name="hotel.hotelId" [value]="room.hotel.hotelId" placeholder="Hotel Id">
+					  <!-- <input type="hidden" class="form-control" id="hotelId" name="hotelId" [(ngModel)]="room.hotel.hotelId" placeholder="Hotel Id"> -->
 					  <input type="text" class="form-control" id="roomNumber" name="roomNumber" [(ngModel)]="room.roomNumber" placeholder="Room Number">
 	               </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="roomTypeId">Room Type</label>
 	                  <select class="form-control" id="roomType" [(ngModel)]="room.roomType.roomTypeId" name="room.roomType.roomTypeId">
@@ -31,7 +32,7 @@
                     </select>
 	                </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="planId">Plan</label>
 	                  <select class="form-control" id="planId" [(ngModel)]="room.hotelPlanMaster.hotelPlanMasterId" name="room.hotelPlanMaster.hotelPlanMasterId">
@@ -43,31 +44,31 @@
 	                  </select>
 	                </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="roomCharges">Room Charges</label>
 	                  <input type="text" class="form-control" id="roomCharges" name="roomCharges" [(ngModel)]="room.roomCharges" placeholder="Room Charges">
 	                </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="maxNoOfAdults">max. No. of Adults</label>
 	                  <input type="text" class="form-control" id="maxNoOfAdults" name="maxNoOfAdults" [(ngModel)]="room.maxNoOfAdults" placeholder="max No Of Adults">
 	                </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="maxNoOfKids">max. No. of Kids</label>
 	                  <input type="text" class="form-control" id="maxNoOfKids" name="maxNoOfKids" [(ngModel)]="room.maxNoOfKids" placeholder="max No Of Kids">
 	                </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="status">Status</label>
 	                  <input type="text" class="form-control" id="status" name="status" [(ngModel)]="room.status" placeholder="Status">
 	                </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-4">
 	                <div class="form-group">
 	                  <label for="planId">Payment Account</label>
 	                  <select class="form-control" id="paymentAccountId" name="hotelPlanMaster.hotelPlanMasterId">

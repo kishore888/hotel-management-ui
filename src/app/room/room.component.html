@@ -71,6 +71,33 @@
           <!-- /.box -->
           
 <!--           </div> -->
+
+
+  <!-- rooms.component.html -->
+<div class="room-container">
+  <mat-card *ngFor="let room of roomList" class="room-card">
+    <mat-card-header>
+      <mat-card-title>Room No. {{ room.roomNumber }}</mat-card-title>
+    </mat-card-header>
+
+    <!-- <img mat-card-image [src]="room.image" alt="{{ room.name }}"> -->
+    <img mat-card-image [src]="'assets/deluxe.jpeg'" alt="{{ room.roomType.roomType }}">
+
+    <mat-card-content>
+      <p><strong>Capacity: </strong> Adults -> {{ room.maxNoOfAdults }}, Kids -> {{room.maxNoOfKids}}</p>
+      <p><strong>Status:</strong> {{ room.status }}</p>
+      <p><strong>Price:</strong> ₹1200</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <!-- <button mat-raised-button color="primary">Book Now</button> -->
+      <button type="button" (click)="bookingRoom($event)" class="btn btn-success" id="open-book-modal" >Book</button>  
+      <button type="button" *ngIf="hasPrivilege('ADD_ROOM')" (click)="addRoom(room)" class="btn btn-success" id="open-book-modal" ><mat-icon>edit</mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+
 </section>
 
 

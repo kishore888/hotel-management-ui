@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Room } from '../model/room.model';
 import { RoomType } from '../model/room-type.model';
 import { HotelPlanMaster } from '../model/hotel-plan-master.model';
@@ -11,6 +11,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBootstrapComponent } from '../modal/modal-bootstrap/modal-bootstrap.component';
 import { KeycloakService } from 'keycloak-angular';
+import * as JSOG from 'jsog';
 
 @Component({
   selector: 'app-room',
@@ -25,7 +26,7 @@ export class RoomComponent implements OnInit, OnDestroy{
   // private modalService = inject(NgbModal);
 	closeResult = '';
 
-  constructor(private roomService: RoomService, private router: Router, private modalService: NgbModal, private keycloakService: KeycloakService) {
+  constructor(private roomService: RoomService, private router: Router, private modalService: NgbModal, private keycloakService: KeycloakService,private cdr: ChangeDetectorRef) {
     // this.getRooms();
     // roomService.getRooms().subscribe((response) =>{
     //   try{
@@ -56,8 +57,11 @@ export class RoomComponent implements OnInit, OnDestroy{
   getRooms(){
     this.roomSubscription = this.roomService.getRooms().subscribe({
       next: (response) => {
-        this.roomList = response;console.log('rooms : '+JSON.stringify(response))
+        this.roomList  = JSOG.decode(response); //to resolve the circular reference issue
+
+        console.log('rooms : '+JSON.stringify(response))
         console.log('Constructor data : '+this.roomList);
+        this.cdr.detectChanges();
         this.initializeDataTable();
       },
       error: (error) => {

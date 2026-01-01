@@ -22,7 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateRoomComponent } from './room/create-room/create-room.component';
 import { RoomTypeComponent } from './room/room-type/room-type.component';
 import { RoomTypeService } from './room/room-type/room-type.service';
-import { FormsModule } from '@angular/forms';
+// import { FormsModule } from '@angular/forms';
 import { initializeKeycloak } from './environments/keycloak-init.factory';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { appConfig } from './app.config';
@@ -30,13 +30,20 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './keycloak-angular-module/auth.interceptor';
 import { MatMenuModule } from '@angular/material/menu';
-import { TopMenuComponent } from './top-menu/top-menu.component';
+// import { TopMenuComponent } from './top-menu/top-menu.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PlanMasterComponent } from './hotel/plan-master/plan-master.component';
 import { StoreModule } from '@ngrx/store';
 import { dataReducer } from './initialize-app/reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { DataEffects } from './initialize-app/data-effects';
+import { ChatbotModule } from './modal/chatbot/chatbot.module';
+import { MatCardModule } from '@angular/material/card';
+import { TopMenuComponent } from './top-menu/top-menu.component';
+import { CarouselModule } from 'primeng/carousel';
+import { PaymentAccount } from './payment/payment-account/payment-account';
+import { UserProfileComponent } from './user-profile.component/user-profile.component';
+import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.component';
 
 @NgModule({
   declarations: [
@@ -44,11 +51,14 @@ import { DataEffects } from './initialize-app/data-effects';
     RoomComponent,
     EmployeeComponent,
     ModalBootstrapComponent,
-    CreateRoomComponent,
-    RoomTypeComponent,
+    // CreateRoomComponent,
+    // RoomTypeComponent,
     HomeComponent,
-    TopMenuComponent,
-    PlanMasterComponent
+    // TopMenuComponent,
+    PlanMasterComponent,
+    PaymentAccount,
+    MainLayoutComponent,
+    // UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +77,11 @@ import { DataEffects } from './initialize-app/data-effects';
     HttpClientModule,
     DataTablesModule,
     NgbModule,
-    FormsModule,
+    ChatbotModule,
+    MatCardModule,
+    TopMenuComponent,
+    CarouselModule,
+    // FormsModule,  //Your CreateRoomComponent is declared as standalone: true. Standalone components do not inherit modules from AppModule. You must import FormsModule directly in the component’s imports array.
     StoreModule.forRoot({ data: dataReducer }),  //initialize app when starts
     EffectsModule.forRoot([DataEffects])        //initialize app when starts
   ],
