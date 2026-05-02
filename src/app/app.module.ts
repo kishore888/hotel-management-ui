@@ -22,7 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateRoomComponent } from './room/create-room/create-room.component';
 import { RoomTypeComponent } from './room/room-type/room-type.component';
 import { RoomTypeService } from './room/room-type/room-type.service';
-// import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { initializeKeycloak } from './environments/keycloak-init.factory';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { appConfig } from './app.config';
@@ -42,7 +42,9 @@ import { MatCardModule } from '@angular/material/card';
 import { TopMenuComponent } from './top-menu/top-menu.component';
 import { CarouselModule } from 'primeng/carousel';
 import { PaymentAccount } from './payment/payment-account/payment-account';
-import { UserProfileComponent } from './user-profile.component/user-profile.component';
+import { EmployeeService } from './employee/employee.service';
+import { EmployeeShiftScheduleService } from './employee/employee-shift-schedule.service';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.component';
 
 @NgModule({
@@ -81,13 +83,14 @@ import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.c
     MatCardModule,
     TopMenuComponent,
     CarouselModule,
-    // FormsModule,  //Your CreateRoomComponent is declared as standalone: true. Standalone components do not inherit modules from AppModule. You must import FormsModule directly in the component’s imports array.
+    FormsModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({ data: dataReducer }),  //initialize app when starts
     EffectsModule.forRoot([DataEffects])        //initialize app when starts
   ],
   providers: [
     // provideAnimationsAsync(), 
-    RoomService, RoomTypeService,
+    RoomService, RoomTypeService, EmployeeService, EmployeeShiftScheduleService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

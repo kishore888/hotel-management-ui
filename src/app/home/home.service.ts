@@ -88,6 +88,9 @@ export class HomeService {
     this.keycloak.login({ redirectUri: window.location.origin + '/room' });
   }
 
+  isAuthenticated(): boolean {
+    return this.keycloak.isLoggedIn();
+  }
   // keycloakInit() {
   //   this.keycloak.init({
   //     config: {

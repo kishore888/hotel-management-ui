@@ -13,6 +13,10 @@ mat-toolbar{
     background-color: #E3DAC9;
 }
 
+.mat-toolbar-row, .mat-toolbar-single-row {
+    padding: 0 3px !important;
+}
+
 .spacer {
   flex-grow: 1; /* Pushes items to the right */
 }
@@ -46,6 +50,7 @@ mat-sidenav-content{
     padding-top: 3.5rem;
     @media screen and (min-width: 600px) {
         padding-top: 4rem;
+        margin-left: 80px !important;
     }
 }
 
@@ -61,3 +66,46 @@ mat-expansion-panel-header > mat-list-item {
   background-color: beige;
 }
 
+mat-nav-list > mat-expansion-panel > mat-expansion-panel-header {
+    padding: 0 12px 0 16px !important;
+}
+
+::ng-deep .mat-mdc-nav-list .mat-expansion-panel .mat-mdc-nav-list .mdc-list-item {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* sidebar widths for collapsed / expanded */
+.sidebar { width: 220px; transition: width 180ms ease; min-width: 70px; overflow: hidden; }
+.sidebar.collapsed { width: 70px; }   /* icons-only */
+.sidebar.expanded { width: 220px; }   /* icons + labels */
+
+/* style nav items: keep icon visible always; label shown only when expanded */
+.mat-nav-list a.mat-list-item,
+.mat-nav-list mat-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+}
+
+.mat-nav-list mat-icon {
+  min-width: 24px;
+  width: 24px;
+  text-align: center;
+}
+
+/* label styling */
+.entry-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ensure icon visible when collapsed */
+.sidebar.collapsed mat-icon { display: inline-flex !important; }
+
+/* responsive: on small screens use overlay mode; width handled by sidenav open/close */
+@media (max-width: 767px) {
+  .sidebar { width: 220px; } /* when opened on mobile, show full width */
+}

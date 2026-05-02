@@ -21,7 +21,7 @@ export class TopMenuComponent {
   constructor(private router: Router, private keycloak: KeycloakService) {}
 
   navigateToProfile() {
-    this.router.navigate(['/profile']); // Navigate dynamically
+    this.router.navigate(['/userprofile']); // Navigate dynamically
   }
 
   async logout(): Promise<void> {

@@ -15,10 +15,13 @@ export class DataEffects {
   loadHotel$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadHotel),
-      mergeMap(() => this.http.get<Hotel>('http://localhost:8880/room/retriveHotelbyId?hotelId=55LQ23392D299EGGVK').pipe(
-        map((hotel) => loadHotelSuccess({ hotel })),
-        catchError(error => of(loadHotelFailure({ error })))
-      ))
+      mergeMap(({ hotelId }) => {
+        console.log('🏨 loadHotel effect fired — hotelId:', hotelId);
+        return this.http.get<Hotel>(`http://localhost:8880/room/retriveHotelbyId?hotelId=${hotelId}`).pipe(
+          map((hotel) => { console.log('✅ Hotel loaded:', hotel); return loadHotelSuccess({ hotel }); }),
+          catchError(error => { console.error('❌ Hotel load failed:', error); return of(loadHotelFailure({ error })); })
+        );
+      })
     )
   );
 

@@ -1,0 +1,41 @@
+import { Hotel } from "./hotel.model";
+
+export class Employee {
+    constructor(
+        public employeeId: string,
+        public firstName: string,
+        public lastName: string,
+        public prefix: string,
+        public gender: string,
+        public qualification: string,
+        public maritalStatus: boolean,
+        public fatherName: string,
+        public religion: string,
+        public panNumber: string,
+        public correspondenceAddress: string,
+        public curStreet: string,
+        public curCity: string,
+        public curState: string,
+        public emailId: string,
+        public permanentAddress: string,
+        public permntStreet: string,
+        public permntCity: string,
+        public permntState: string,
+        public drivingLicenceNo: string,
+        public audharCardNo: string,
+        public voterId: string,
+        public passportNo: string,
+        public image: string,
+        public phone: string,
+        public role: string,
+        public department: string,
+        public salary: number,
+        public joiningDate: string,
+        public status: string,
+        public hotel: Hotel,
+        public createdOn: Date,
+        public createdBy: string,
+        public updatedOn: Date,
+        public updatedBy: string
+    ) {}
+}

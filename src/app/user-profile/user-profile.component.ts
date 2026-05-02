@@ -3,9 +3,9 @@ import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-user-profile.component',
-  standalone: false,
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
+  standalone: true
 })
 export class UserProfileComponent {
 
