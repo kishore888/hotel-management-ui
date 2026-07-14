@@ -1,104 +1,155 @@
 <div class="room-form-container">
-  <form [formGroup]="roomForm" (ngSubmit)="submitForm()">
-    <div class="container-fluid">
-      <!-- Row 1: Room Number | Room Type | Plan | Payment Account-->
-      <div class="row mb-4">
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Room Number</mat-label>
-            <input matInput formControlName="roomNumber" placeholder="Room Number" />
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Room Type</mat-label>
-            <mat-select formControlName="roomTypeId">
-              <mat-option *ngFor="let type of roomTypes" [value]="type.roomTypeId">
-                {{ type.roomType }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Plan</mat-label>
-            <mat-select formControlName="planId">
-              <mat-option *ngFor="let plan of hotelPlanMasters" [value]="plan.hotelPlanMasterId">
-                {{ plan.planName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Payment Account</mat-label>
-            <mat-select formControlName="paymentAccountId">
-              <mat-option *ngFor="let account of paymentAccounts" [value]="account.paymentAccountId">
-                {{ account.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-      <!-- Row 2:  | Max Adults | Max Kids | Status | Room Charges -->
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Max No. of Adults</mat-label>
-            <input matInput type="number" formControlName="maxNoOfAdults" placeholder="Max Adults" />
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Max No. of Kids</mat-label>
-            <input matInput type="number" formControlName="maxNoOfKids" placeholder="Max Kids" />
-          </mat-form-field>
-        </div>
-        
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Status</mat-label>
-            <input matInput formControlName="status" placeholder="Status" />
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Room Charges (₹)</mat-label>
-            <input matInput type="number" formControlName="roomCharges" placeholder="Room Charges" />
-          </mat-form-field>
-        </div>
-      </div>
-
-      <!-- File Upload (full width) -->
-      <div class="row mb-4">
-        <div class="col-6">
-          <label for="fileUpload" class="form-label">Upload Room Images</label>
-          <input id="fileUpload" class="form-control" type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
-        </div>
-      </div>
-
-      <!-- Image Preview (full width) -->
-      <div class="row mb-3" *ngIf="selectedImages.length > 0">
-        <div class="col-6">
-          <h5>Preview Selected Images</h5>
-          <p-carousel [value]="selectedImages" [numVisible]="1" [circular]="true">
-            <ng-template pTemplate="item" let-img>
-              <img [src]="img" alt="Room Image" style="width:100%; border-radius:8px;" />
-            </ng-template>
-          </p-carousel>
-        </div>
-      </div>
-
-      <!-- Submit -->
-      <div class="row">
-        <div class="col-12">
-          <button mat-raised-button color="primary" type="submit" [disabled]="roomForm.invalid">Create Room</button>
-        </div>
-      </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">Room</h3>
     </div>
-  </form>
+
+    <form [formGroup]="roomForm" (ngSubmit)="submitForm()">
+      <div class="box-body">
+        <div class="row">
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="roomNumber">Room Number</label>
+            <input type="text" class="form-control" id="roomNumber" formControlName="roomNumber" placeholder="Room Number">
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="roomTypeId">Room Type</label>
+            <select class="form-control" id="roomTypeId" formControlName="roomTypeId">
+              <option value="">Select Room Type</option>
+              <option *ngFor="let type of roomTypes" [value]="type.roomTypeId">
+                {{ type.roomType }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="planId">Plan</label>
+            <select class="form-control" id="planId" formControlName="planId">
+              <option value="">Select Plan</option>
+              <option *ngFor="let plan of hotelPlanMasters" [value]="plan.hotelPlanMasterId">
+                {{ plan.planName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="paymentAccountId">Payment Account</label>
+            <select class="form-control" id="paymentAccountId" formControlName="paymentAccountId">
+              <option value="">Select Account</option>
+              <option *ngFor="let account of paymentAccounts" [value]="account.paymentAccountId">
+                {{ account.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-lg-2 col-md-4 col-sm-6">
+            <label for="floorNumber">Floor Number</label>
+            <input type="number" class="form-control" id="floorNumber" formControlName="floorNumber" placeholder="0">
+          </div>
+
+          <div class="form-group col-lg-2 col-md-4 col-sm-6">
+            <label for="maxNoOfAdults">Max Adults</label>
+            <input type="number" class="form-control" id="maxNoOfAdults" formControlName="maxNoOfAdults" placeholder="0">
+          </div>
+
+          <div class="form-group col-lg-2 col-md-4 col-sm-6">
+            <label for="maxNoOfKids">Max Kids</label>
+            <input type="number" class="form-control" id="maxNoOfKids" formControlName="maxNoOfKids" placeholder="0">
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="roomCharges">Room Charges (₹)</label>
+            <input type="number" class="form-control" id="roomCharges" formControlName="roomCharges" placeholder="0">
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" formControlName="status">
+              <option value="Available">Available</option>
+              <option value="Booked">Booked</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Out of Service">Out of Service</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" formGroupName="roomStatus">
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="housekeepingStatus">Housekeeping Status</label>
+            <select class="form-control" id="housekeepingStatus" formControlName="housekeepingStatus">
+              <option value="Clean">Clean</option>
+              <option value="Dirty">Dirty</option>
+              <option value="Inspected">Inspected</option>
+            </select>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="housekeepingPriority">Housekeeping Priority</label>
+            <select class="form-control" id="housekeepingPriority" formControlName="housekeepingPriority">
+              <option value="Low">Low</option>
+              <option value="Normal">Normal</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label for="lockStatus">Lock Status</label>
+            <select class="form-control" id="lockStatus" formControlName="lockStatus">
+              <option value="Unlocked">Unlocked</option>
+              <option value="Locked">Locked</option>
+              <option value="Do Not Disturb">Do Not Disturb</option>
+            </select>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label class="d-block" for="maintenanceStatus">Maintenance Status</label>
+            <input type="checkbox" id="maintenanceStatus" formControlName="maintenanceStatus">
+          </div>
+        </div>
+
+        <div class="row" formGroupName="roomStatus">
+          <div class="form-group col-lg-6 col-md-6 col-sm-12">
+            <label for="maintenanceNotes">Maintenance Notes</label>
+            <textarea class="form-control" id="maintenanceNotes" formControlName="maintenanceNotes" rows="2" placeholder="Optional notes"></textarea>
+          </div>
+
+          <div class="form-group col-lg-6 col-md-6 col-sm-12">
+            <label for="specialRequests">Special Requests</label>
+            <textarea class="form-control" id="specialRequests" formControlName="specialRequests" rows="2" placeholder="Optional requests"></textarea>
+          </div>
+        </div>
+
+        <div class="row" formGroupName="roomStatus">
+          <div class="form-group col-lg-12 col-md-12 col-sm-12">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" id="notes" formControlName="notes" rows="2" placeholder="Additional room notes"></textarea>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <label for="fileUpload" class="form-label">Upload Room Images</label>
+            <input id="fileUpload" class="form-control" type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
+          </div>
+        </div>
+
+        <div class="row mb-3" *ngIf="selectedImages.length > 0">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <h5>Preview Selected Images</h5>
+            <p-carousel [value]="selectedImages" [numVisible]="1" [circular]="true">
+              <ng-template pTemplate="item" let-img>
+                <img [src]="img" alt="Room Image" style="width:100%; border-radius:8px;" />
+              </ng-template>
+            </p-carousel>
+          </div>
+        </div>
+      </div>
+
+      <div class="box-footer">
+        <button mat-raised-button color="primary" type="submit" [disabled]="roomForm.invalid">Create Room</button>
+      </div>
+    </form>
+  </div>
 </div>

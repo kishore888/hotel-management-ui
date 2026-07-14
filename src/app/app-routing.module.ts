@@ -10,6 +10,14 @@ import { RoomTypeComponent } from './room/room-type/room-type.component';
 import { AddRoomComponent } from './room/add-room/add-room.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.component';
+import { CreateHotelComponent } from './hotel/create-hotel/create-hotel.component';
+import { RoleGuard } from './keycloak-angular-module/RoleGuard';
+import { FormConfigComponent } from './form-config/form-config.component';
+import { DashboardComponent } from './hotel/dashboard/dashboard.component';
+import { PaymentAccount } from './payment/payment-account/payment-account';
+import { HotelPaymentGatewayComponent } from './payment/hotel-payment-gateway/hotel-payment-gateway.component';
+import { PaymentGatewayComponent } from './payment/payment-gateway/payment-gateway.component';
+import { HotelPlanComponent } from './hotel/hotel-plan/hotel-plan.component';
 
 export const routes: Routes = [
   // {path:"",redirectTo:"home",pathMatch:"full"},//working scenario
@@ -23,7 +31,8 @@ export const routes: Routes = [
   //  {path:"employee",component:EmployeeComponent}
 
   { path: '', redirectTo:"home",pathMatch:"full"},
-  { path: 'home', component: HomeComponent }, // public landing page
+  { path: 'home', component: HomeComponent },             // public landing page
+  { path: 'register-hotel', component: CreateHotelComponent, canActivate: [RoleGuard] }, // SUPER_ADMIN only
   {
     path: '',
     component: MainLayoutComponent, // layout wrapper for authenticated pages
@@ -32,9 +41,14 @@ export const routes: Routes = [
       { path: 'room', component: RoomComponent },
       { path: 'addRoom', loadComponent: () => import('./room/add-room/add-room.component').then((c) => c.AddRoomComponent)},
       { path: 'userprofile', loadComponent: () => import('./user-profile/user-profile.component').then((c) => c.UserProfileComponent)},
-      { path: 'dashboard', component:AppComponent},
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'addRoomType', component:RoomTypeComponent},
-      { path: 'employee', component: EmployeeComponent }
+      { path: 'employee', component: EmployeeComponent },
+      { path: 'form-config', component: FormConfigComponent },
+      { path: 'paymentAccount/create', component: PaymentAccount },
+      { path: 'hotelPaymentGateway/create', component: HotelPaymentGatewayComponent },
+      { path: 'paymentGateway/create', component: PaymentGatewayComponent },
+      { path: 'hotelPlan/create', component: HotelPlanComponent }
     ]
   },
   { path: '**', redirectTo: '' }

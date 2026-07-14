@@ -1,0 +1,5 @@
+.drag-handle { cursor: grab; }
+.cdk-drag-preview { background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.cdk-drag-placeholder { opacity: 0.3; }
+.cdk-drag-animating { transition: transform 250ms cubic-bezier(0,0,0.2,1); }
+.cdk-drop-list-dragging .drag-row:not(.cdk-drag-placeholder) { transition: transform 250ms cubic-bezier(0,0,0.2,1); }

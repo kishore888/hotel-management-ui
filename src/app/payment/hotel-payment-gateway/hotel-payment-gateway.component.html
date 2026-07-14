@@ -1,0 +1,54 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Hotel Payment Gateway</h3>
+      </div>
+
+      <form #gatewayForm="ngForm" (ngSubmit)="onSubmit(gatewayForm)">
+        <div class="box-body">
+          <div class="row">
+            <div class="form-group col-lg-4 col-md-4 col-sm-6">
+              <label for="merchantId">Merchant ID</label>
+              <input type="text" class="form-control" id="merchantId" name="merchantId" [(ngModel)]="gateway.merchantId" placeholder="Merchant ID" required>
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-6">
+              <label for="merchantKey">Merchant Key</label>
+              <input type="text" class="form-control" id="merchantKey" name="merchantKey" [(ngModel)]="gateway.merchantKey" placeholder="Merchant Key" required>
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-6">
+              <label for="salt">Salt</label>
+              <input type="text" class="form-control" id="salt" name="salt" [(ngModel)]="gateway.salt" placeholder="Salt" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-lg-4 col-md-4 col-sm-6">
+              <label for="paymentGatewayId">Payment Gateway</label>
+              <select class="form-control" id="paymentGatewayId" name="paymentGatewayId" [(ngModel)]="gateway.paymentGateway.paymentGatewayId">
+                <option [ngValue]="null">Select Gateway</option>
+                <option *ngFor="let option of paymentGateways" [ngValue]="option.paymentGatewayId">
+                  {{ option.paymentGatewayName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-6">
+              <label for="isActive">Active</label>
+              <select class="form-control" id="isActive" name="isActive" [(ngModel)]="gateway.isActive">
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="gatewayForm.invalid || isSubmitting">{{ isSubmitting ? 'Saving...' : 'Save' }}</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>

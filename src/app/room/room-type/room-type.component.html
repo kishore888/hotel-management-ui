@@ -15,15 +15,120 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-4 col-sm-4">
                     <label for="roomType">Room Type Name</label>
-                    <input type="text" class="form-control" id="roomType" name="roomType" placeholder="Room Type">
+                    <input type="text" class="form-control" id="roomType" name="roomType" [(ngModel)]="roomType.roomType" placeholder="Room Type">
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-sm-4">
-                    <label for="tariff">Tariff</label>
-                    <input type="text" class="form-control" id="tariff" name="roomTypeTariff" placeholder="Tariff">
+                    <label for="roomTypeCode">Room Type Code</label>
+                    <input type="text" class="form-control" id="roomTypeCode" name="roomTypeCode" [(ngModel)]="roomType.roomTypeCode" placeholder="e.g., STD, DLX, SUI">
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-sm-4">
-                    <label for="status">Status</label>
-                    <input type="text" class="form-control" id="status" name="roomTypeStatus" placeholder="Status">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" id="category" name="category" [(ngModel)]="roomType.category" placeholder="Luxury, Business, Economy">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" [(ngModel)]="roomType.description" rows="3" placeholder="Detailed description of amenities and features"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="adultCapacity">Adult Capacity</label>
+                    <input type="number" class="form-control" id="adultCapacity" name="adultCapacity" [(ngModel)]="roomType.adultCapacity" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="childCapacity">Child Capacity</label>
+                    <input type="number" class="form-control" id="childCapacity" name="childCapacity" [(ngModel)]="roomType.childCapacity" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="roomSize">Room Size (sq ft)</label>
+                    <input type="number" class="form-control" id="roomSize" name="roomSize" [(ngModel)]="roomType.roomSize" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="bedConfiguration">Bed Configuration</label>
+                    <input type="text" class="form-control" id="bedConfiguration" name="bedConfiguration" [(ngModel)]="roomType.bedConfiguration" placeholder="e.g., 1 King, 2 Queen">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="baseTariff">Base Tariff</label>
+                    <input type="number" class="form-control" id="baseTariff" name="baseTariff" [(ngModel)]="roomType.baseTariff" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="weekendTariff">Weekend Tariff</label>
+                    <input type="number" class="form-control" id="weekendTariff" name="weekendTariff" [(ngModel)]="roomType.weekendTariff" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="currency">Currency</label>
+                    <input type="text" class="form-control" id="currency" name="currency" [(ngModel)]="roomType.currency" placeholder="e.g., USD, INR">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="taxRate">Tax Rate (%)</label>
+                    <input type="number" class="form-control" id="taxRate" name="taxRate" [(ngModel)]="roomType.taxRate" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="minNights">Min Nights</label>
+                    <input type="number" class="form-control" id="minNights" name="minNights" [(ngModel)]="roomType.minNights" placeholder="0">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="maxNights">Max Nights</label>
+                    <input type="number" class="form-control" id="maxNights" name="maxNights" [(ngModel)]="roomType.maxNights" placeholder="0">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="viewType">View Type</label>
+                    <input type="text" class="form-control" id="viewType" name="viewType" [(ngModel)]="roomType.viewType" placeholder="Ocean, City, Garden">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="smokingPolicy">Smoking Policy</label>
+                    <select class="form-control" id="smokingPolicy" name="smokingPolicy" [(ngModel)]="roomType.smokingPolicy">
+                        <option value="">Select</option>
+                        <option value="Non-Smoking">Non-Smoking</option>
+                        <option value="Smoking">Smoking</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="accessibility">Accessibility</label>
+                    <select class="form-control" id="accessibility" name="accessibility" [(ngModel)]="roomType.accessibility">
+                        <option value="">Select</option>
+                        <option value="Standard">Standard</option>
+                        <option value="ADA Compliant">ADA Compliant</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label for="amenities">Amenities (comma separated)</label>
+                    <input type="text" class="form-control" id="amenities" name="amenities" [(ngModel)]="amenitiesString" placeholder="WiFi, AC, TV, Minibar, Safe">
+                    </div>
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label for="tags">Tags (comma separated)</label>
+                    <input type="text" class="form-control" id="tags" name="tags" [(ngModel)]="tagsString" placeholder="tag1, tag2, tag3">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label for="images">Images (comma separated URLs)</label>
+                    <input type="text" class="form-control" id="images" name="images" [(ngModel)]="imagesString" placeholder="url1, url2, url3">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="roomTypeStatus">Status</label>
+                    <select class="form-control" id="roomTypeStatus" name="roomTypeStatus" [(ngModel)]="roomType.roomTypeStatus">
+                        <option value="">Select</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="isActive">Is Active</label>
+                    <select class="form-control" id="isActive" name="isActive" [(ngModel)]="roomType.isActive">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
                     </div>
                 </div>
               </div>

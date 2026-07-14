@@ -1,6 +1,5 @@
 <div class="content-wrapper">
 <section class="content">
-
         <!-- left column -->
 <!--         <div class="col-md-12"> -->
           <!-- general form elements -->
@@ -12,83 +11,78 @@
             <!-- form start -->
             <!-- <form role="form" id="" name="" action="room/create" method="POST"> -->
             <form #roomForm="ngForm" (ngSubmit)="onSubmit(roomForm)">
-              <div class="box-body row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="roomNumber">Room Number</label>
-	                  <input type="hidden" class="form-control" id="roomId" name="roomId" [value]="room.roomId" placeholder="Room Id">
-					  <input type="hidden" class="form-control" id="hotelId" name="hotel.hotelId" [value]="room.hotel.hotelId" placeholder="Hotel Id">
-					  <!-- <input type="hidden" class="form-control" id="hotelId" name="hotelId" [(ngModel)]="room.hotel.hotelId" placeholder="Hotel Id"> -->
-					  <input type="text" class="form-control" id="roomNumber" name="roomNumber" [(ngModel)]="room.roomNumber" placeholder="Room Number">
-	               </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="roomTypeId">Room Type</label>
-	                  <select class="form-control" id="roomType" [(ngModel)]="room.roomType.roomTypeId" name="room.roomType.roomTypeId">
-	                  	<option>--Select--</option>
-	                  	<!-- <option *ngFor="let roomType of roomTypeList; let count = index" value="{{roomType.roomTypeId}}" [selected]={{roomType.roomTypeId}}==={{room.roomType.roomTypeId}}>{{roomType.roomType}}</option> -->
-                          <option *ngFor="let roomType of roomTypes" [ngValue]="room.roomType.roomTypeId" [selected]="roomType.roomTypeId === room.roomType.roomTypeId">{{roomType.roomType}}</option>
+              <div class="box-body">
+                <input type="hidden" class="form-control" id="roomId" name="roomId" [value]="room.roomId" placeholder="Room Id">
+                <input type="hidden" class="form-control" id="hotelId" name="hotel.hotelId" [value]="room.hotel.hotelId" placeholder="Hotel Id">
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="roomNumber">Room Number</label>
+                    <input type="text" class="form-control" id="roomNumber" name="roomNumber" [(ngModel)]="room.roomNumber" placeholder="Room Number">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="roomType">Room Type</label>
+                    <select class="form-control" id="roomType" name="roomTypeId" [(ngModel)]="room.roomType.roomTypeId">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let roomType of roomTypes" [ngValue]="roomType.roomTypeId" [selected]="roomType.roomTypeId === room.roomType.roomTypeId">{{roomType.roomType}}</option>
                     </select>
-	                </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="planId">Plan</label>
+                    <select class="form-control" id="planId" name="planId" [(ngModel)]="room.hotelPlanMaster.hotelPlanMasterId">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let hotelPlanMaster of hotelPlanMasters" [ngValue]="hotelPlanMaster.hotelPlanMasterId" [selected]="hotelPlanMaster.hotelPlanMasterId === room.hotelPlanMaster.hotelPlanMasterId">{{hotelPlanMaster.planName}}</option>
+                    </select>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="planId">Plan</label>
-	                  <select class="form-control" id="planId" [(ngModel)]="room.hotelPlanMaster.hotelPlanMasterId" name="room.hotelPlanMaster.hotelPlanMasterId">
-	                  	<option> --Select--</option>
-	                  	<!-- <c:forEach items="${hotelPlanMasterList}" var="hotelPlanMaster">
-	                  		<option value="${hotelPlanMaster.hotelPlanMasterId}" [selected]={{hotelPlanMaster.hotelPlanMasterId}}==room.hotelPlanMaster.hotelPlanMasterId?'selected':''}>${hotelPlanMaster.planName}</option>
-	                  	</c:forEach> -->
-						  <option *ngFor="let hotelPlanMaster of hotelPlanMasters" [ngValue]="room.hotelPlanMaster.hotelPlanMasterId" [selected]="hotelPlanMaster.hotelPlanMasterId === room.hotelPlanMaster.hotelPlanMasterId">{{hotelPlanMaster.planName}}</option>
-	                  </select>
-	                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="floorNumber">Floor Number</label>
+                    <input type="number" class="form-control" id="floorNumber" name="floorNumber" [(ngModel)]="room.floorNumber" placeholder="Floor Number">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="roomCharges">Room Charges</label>
+                    <input type="number" class="form-control" id="roomCharges" name="roomCharges" [(ngModel)]="room.roomCharges" placeholder="Room Charges">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="maxNoOfAdults">Max No. of Adults</label>
+                    <input type="number" class="form-control" id="maxNoOfAdults" name="maxNoOfAdults" [(ngModel)]="room.maxNoOfAdults" placeholder="Max Adults">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="maxNoOfKids">Max No. of Kids</label>
+                    <input type="number" class="form-control" id="maxNoOfKids" name="maxNoOfKids" [(ngModel)]="room.maxNoOfKids" placeholder="Max Kids">
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="roomCharges">Room Charges</label>
-	                  <input type="text" class="form-control" id="roomCharges" name="roomCharges" [(ngModel)]="room.roomCharges" placeholder="Room Charges">
-	                </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="maxNoOfAdults">max. No. of Adults</label>
-	                  <input type="text" class="form-control" id="maxNoOfAdults" name="maxNoOfAdults" [(ngModel)]="room.maxNoOfAdults" placeholder="max No Of Adults">
-	                </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="maxNoOfKids">max. No. of Kids</label>
-	                  <input type="text" class="form-control" id="maxNoOfKids" name="maxNoOfKids" [(ngModel)]="room.maxNoOfKids" placeholder="max No Of Kids">
-	                </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="status">Status</label>
-	                  <input type="text" class="form-control" id="status" name="status" [(ngModel)]="room.status" placeholder="Status">
-	                </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-	                <div class="form-group">
-	                  <label for="planId">Payment Account</label>
-	                  <select class="form-control" id="paymentAccountId" name="hotelPlanMaster.hotelPlanMasterId">
-	                  	<!-- <c:forEach items="${paymentAccountList}" var="paymentAccount">
-	                  		<option value="{{paymentAccount.paymentAccountId}}" ${paymentAccount.paymentAccountId==room.paymentAccount.paymentAccountId?'selected':''}>{{paymentAccount.name}}</option>
-	                  	</c:forEach> -->
-	                  </select>
-	                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" name="status" [(ngModel)]="room.status">
+                        <option value="">Select</option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Reserved">Reserved</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4">
+                    <label for="paymentAccountId">Payment Account</label>
+                    <select class="form-control" id="paymentAccountId" name="paymentAccountId" [(ngModel)]="room.paymentAccount.paymentAccountId">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let paymentAccount of paymentAccounts" [ngValue]="paymentAccount.paymentAccountId">{{paymentAccount.name}}</option>
+                    </select>
+                    </div>
                 </div>
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="button" class="btn btn-warning" value="Back" onclick="history.go(-1);"/>
               </div>
             </form>
           </div>
           <!-- /.box -->
-          
+
 <!--           </div> -->
 </section>
 </div>

@@ -1,28 +1,33 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { HomeService } from '../../home/home.service';
 import { loadHotel } from '../../initialize-app/actions';
+import { selectHotel } from '../../initialize-app/selectors';
 import { KeycloakService } from 'keycloak-angular';
+import { Hotel } from '../../model/hotel.model';
 
 @Component({
   selector: 'app-main-layout.component',
   standalone: false,
   templateUrl: './main-layout.component.html',
-  styleUrl: './main-layout.component.css'
+  styleUrl: './main-layout.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainLayoutComponent {
-  title = 'hotel-management-ui';
+  title: string = 'hotel-management-ui';
+  hotel$: Observable<Hotel | null>;
   @ViewChild(MatSidenav)
-  sidenav!: MatSidenav;
-  isMobile= false;
+  sidenav: MatSidenav | undefined;
+  isMobile: boolean = false;
   // isCollapsed = true;
   isLoggedIn: boolean = false;
 
   // false = collapsed (icons only). true = expanded (icons + labels)
-  isExpanded = false;
+  isExpanded: boolean = false;
   // isMobile = false;
 
   constructor(
@@ -30,9 +35,12 @@ export class MainLayoutComponent {
     private router: Router,
     private store: Store,
     private homeServiceService: HomeService,
-    private keycloakService: KeycloakService
+    private keycloakService: KeycloakService,
+    private cdr: ChangeDetectorRef
   ) {
     this.isLoggedIn = this.homeServiceService.isLoggedIn;
+    this.hotel$ = this.store.select(selectHotel);
+    this.updateIsMobile();
   }
 
   // keycloak = new Keycloak({ 
@@ -50,8 +58,6 @@ export class MainLayoutComponent {
     //   }
     // });
 
-    this.updateIsMobile();
-
     const token = this.keycloakService.getKeycloakInstance().tokenParsed;
     // const hotelId = token?.['hotelId'] ?? '';
     // If group name has a prefix (e.g., groups: ["/Hotel_55LQ23392D299EGGVK"])
@@ -60,6 +66,8 @@ export class MainLayoutComponent {
     this.store.dispatch(loadHotel({ hotelId }));//dispatching calls to initialize app
     // this.store.dispatch(loadRooms());
     // this.homeServiceService.initAuth();
+    
+    this.cdr.markForCheck();
   }
 
   // toggleMenu() {

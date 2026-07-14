@@ -1,99 +1,280 @@
-<nav class="top-menu">
-  <ul>
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-brand" style="background-color: wheat;">
+    <i class="bi bi-building"></i>
+    <span>LuxeStay <strong>HMS</strong></span>
+  </div>
+  <ul class="navbar-links">
     <li><a (click)="scrollTo('home')">Home</a></li>
     <li><a (click)="scrollTo('about')">About</a></li>
-    <li><a (click)="scrollTo('modules')">Modules</a></li>
-    <li><a (click)="scrollTo('apps')">Apps</a></li>
+    <li><a (click)="scrollTo('modules')">Features</a></li>
     <li><a (click)="scrollTo('pricing')">Pricing</a></li>
     <li><a (click)="scrollTo('contact')">Contact</a></li>
-    <li><a (click)="login()">Sign In</a></li>
   </ul>
+  <div class="navbar-cta">
+    <button class="btn-register" routerLink="/register-hotel">
+      <i class="bi bi-building-add me-1"></i> Register Hotel
+    </button>
+    <button class="btn-signin" (click)="login()">
+      <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+    </button>
+  </div>
 </nav>
 
-<section id="home">
-  <h2>Welcome to Our Hotel</h2>
-  <div class="slider">
-    <img src="assets/deluxe.jpeg" alt="Hotel">
-    <img src="assets/deluxe.jpeg" alt="Room">
-    <img src="assets/deluxe.jpeg" alt="Room">
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">All-in-One Hotel Platform</span>
+    <h1>Manage Your Hotel<br><span class="highlight">Effortlessly & Smartly</span></h1>
+    <p>From room bookings to staff scheduling — everything you need to run a world-class hotel, in one powerful dashboard.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" (click)="login()">
+        <i class="bi bi-rocket-takeoff-fill me-2"></i>Get Started
+      </button>
+      <button class="btn-outline" (click)="scrollTo('modules')">
+        <i class="bi bi-play-circle me-2"></i>Explore Features
+      </button>
+    </div>
   </div>
-</section>
-<section id="about">
-  <h2>About Us</h2>
-  <p>
-    Our Hotel Management System provides seamless booking, customer service,
-    and staff management to ensure the best hospitality experience.
-  </p>
-</section>
-<section id="modules">
-  <h2>Modules</h2>
-  <div class="card-container">
-    <div class="card">
-      <!-- <img src="assets/room.png" alt="Room Module"> -->
-      <h3>Room Module</h3>
-      <p class="description">Manage room availability, categories, and bookings.</p>
-    </div>
-    <div class="card">
-      <!-- <img src="assets/payment.png" alt="Payment Module"> -->
-      <h3>Payment Module</h3>
-      <p class="description">Secure payment processing and billing.</p>
-    </div>
-    <!-- Add more cards for Employee, Customer, Reservation -->
-  </div>
-</section>
-<section id="apps">
-  <h2>Supported Applications</h2>
-  <p>Our system supports both laptop and mobile applications.</p>
-  <!-- <img src="assets/laptop.png" alt="Laptop App">
-  <img src="assets/mobile.png" alt="Mobile App"> -->
-</section>
-
-<section id="pricing">
-  <h2>Most Flexible Pricing & Easy Pricing</h2>
-  <div class="pricing-row">
-    <div class="pricing-card">
-      <h3>Starter</h3>
-      <ul>
-        <li>Basic Room Management</li>
-        <li>Customer Support</li>
-      </ul>
-    </div>
-    <div class="pricing-card">
-      <h3>Pro</h3>
-      <ul>
-        <li>Includes Starter Features</li>
-        <li>Payment Integration</li>
-      </ul>
-    </div>
-    <div class="pricing-card">
-      <h3>Premium</h3>
-      <ul>
-        <li>Includes Pro Features</li>
-        <li>Employee Management</li>
-      </ul>
-    </div>
-    <div class="pricing-card">
-      <h3>Ultimate</h3>
-      <ul>
-        <li>All Features</li>
-        <li>Advanced Analytics</li>
-      </ul>
-    </div>
+  <div class="hero-scroll-hint" (click)="scrollTo('stats')">
+    <i class="bi bi-chevron-double-down"></i>
   </div>
 </section>
 
-<section id="contact">
-  <h2>Contact Us</h2>
-  <form>
-    <input type="text" placeholder="Your Name">
-    <input type="email" placeholder="Your Email">
-    <textarea placeholder="Message"></textarea>
-    <button type="submit">Send</button>
-  </form>
+<!-- ===== STATS ===== -->
+<section class="stats-bar" id="stats">
+  <div class="stat-item">
+    <span class="stat-number">500<span class="plus">+</span></span>
+    <span class="stat-label">Hotels Managed</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-number">12K<span class="plus">+</span></span>
+    <span class="stat-label">Rooms Tracked</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-number">98<span class="plus">%</span></span>
+    <span class="stat-label">Client Satisfaction</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-number">24/7</span>
+    <span class="stat-label">Support Available</span>
+  </div>
 </section>
 
-<section id="signin">
-  <h2>Sign In</h2>
-  <button (click)="login()">Login with Keycloak</button>
+<!-- ===== ABOUT ===== -->
+<section class="about-section" id="about">
+  <div class="section-header">
+    <span class="section-tag">Who We Are</span>
+    <h2>Built for Modern Hospitality</h2>
+    <p>LuxeStay HMS empowers hotel owners and managers with real-time insights, automated workflows, and a seamless guest experience platform.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="about-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+      <h4>Lightning Fast</h4>
+      <p>Real-time updates across all modules keep your entire team in sync without delays.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-icon"><i class="bi bi-shield-lock-fill"></i></div>
+      <h4>Secure & Reliable</h4>
+      <p>Enterprise-grade security with Keycloak SSO ensures only the right people access the right data.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-icon"><i class="bi bi-graph-up-arrow"></i></div>
+      <h4>Data-Driven Insights</h4>
+      <p>Powerful dashboards give you occupancy trends, revenue analytics, and staff performance at a glance.</p>
+    </div>
+    <div class="about-card">
+      <div class="about-icon"><i class="bi bi-phone-fill"></i></div>
+      <h4>Mobile Ready</h4>
+      <p>Fully responsive design works seamlessly on desktops, tablets, and smartphones.</p>
+    </div>
+  </div>
 </section>
+
+<!-- ===== MODULES ===== -->
+<section class="modules-section" id="modules">
+  <div class="section-header light">
+    <span class="section-tag gold">Platform Features</span>
+    <h2>Everything Your Hotel Needs</h2>
+    <p>A complete suite of modules designed to streamline every aspect of hotel operations.</p>
+  </div>
+  <div class="modules-grid">
+    <div class="module-card">
+      <div class="module-icon"><i class="bi bi-door-open-fill"></i></div>
+      <h4>Room Management</h4>
+      <p>Manage room types, availability, housekeeping status, and dynamic pricing in real time.</p>
+      <span class="module-tag">Core</span>
+    </div>
+    <div class="module-card">
+      <div class="module-icon"><i class="bi bi-people-fill"></i></div>
+      <h4>Employee Management</h4>
+      <p>Track staff profiles, shift schedules, departments, salary, and roles from one place.</p>
+      <span class="module-tag">Core</span>
+    </div>
+    <div class="module-card">
+      <div class="module-icon"><i class="bi bi-calendar2-check-fill"></i></div>
+      <h4>Shift Scheduling</h4>
+      <p>Assign and override per-date employee shifts with start/end times and notes.</p>
+      <span class="module-tag">HR</span>
+    </div>
+    <div class="module-card">
+      <div class="module-icon"><i class="bi bi-credit-card-fill"></i></div>
+      <h4>Payment & Billing</h4>
+      <p>Secure payment processing, invoice generation, and full billing history tracking.</p>
+      <span class="module-tag">Finance</span>
+    </div>
+    <div class="module-card">
+      <div class="module-icon"><i class="bi bi-person-check-fill"></i></div>
+      <h4>Guest Management</h4>
+      <p>Seamless check-in/check-out, guest profiles, preferences, and loyalty tracking.</p>
+      <span class="module-tag">Guest</span>
+    </div>
+    <div class="module-card">
+      <div class="module-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+      <h4>Analytics & Reports</h4>
+      <p>Visual dashboards for occupancy rates, revenue trends, and operational KPIs.</p>
+      <span class="module-tag">Insights</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="pricing-section" id="pricing">
+  <div class="section-header">
+    <span class="section-tag">Transparent Pricing</span>
+    <h2>Choose the Right Plan</h2>
+    <p>Flexible plans to fit boutique hotels to large chains. No hidden fees, ever.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="plan-header">
+        <span class="plan-name">Starter</span>
+        <div class="plan-price">₹2,999<span>/mo</span></div>
+      </div>
+      <ul class="plan-features">
+        <li><i class="bi bi-check-circle-fill"></i> Room Management</li>
+        <li><i class="bi bi-check-circle-fill"></i> Up to 20 Rooms</li>
+        <li><i class="bi bi-check-circle-fill"></i> Basic Reports</li>
+        <li><i class="bi bi-check-circle-fill"></i> Email Support</li>
+        <li class="disabled"><i class="bi bi-x-circle-fill"></i> Employee Module</li>
+        <li class="disabled"><i class="bi bi-x-circle-fill"></i> Payment Integration</li>
+      </ul>
+      <button class="btn-plan" (click)="login()">Get Started</button>
+    </div>
+    <div class="pricing-card recommended">
+      <div class="recommended-badge">Most Popular</div>
+      <div class="plan-header">
+        <span class="plan-name">Professional</span>
+        <div class="plan-price">₹7,499<span>/mo</span></div>
+      </div>
+      <ul class="plan-features">
+        <li><i class="bi bi-check-circle-fill"></i> All Starter Features</li>
+        <li><i class="bi bi-check-circle-fill"></i> Up to 100 Rooms</li>
+        <li><i class="bi bi-check-circle-fill"></i> Employee Management</li>
+        <li><i class="bi bi-check-circle-fill"></i> Shift Scheduling</li>
+        <li><i class="bi bi-check-circle-fill"></i> Payment Integration</li>
+        <li class="disabled"><i class="bi bi-x-circle-fill"></i> Advanced Analytics</li>
+      </ul>
+      <button class="btn-plan gold" (click)="login()">Get Started</button>
+    </div>
+    <div class="pricing-card">
+      <div class="plan-header">
+        <span class="plan-name">Enterprise</span>
+        <div class="plan-price">₹14,999<span>/mo</span></div>
+      </div>
+      <ul class="plan-features">
+        <li><i class="bi bi-check-circle-fill"></i> All Pro Features</li>
+        <li><i class="bi bi-check-circle-fill"></i> Unlimited Rooms</li>
+        <li><i class="bi bi-check-circle-fill"></i> Multi-Hotel Support</li>
+        <li><i class="bi bi-check-circle-fill"></i> Advanced Analytics</li>
+        <li><i class="bi bi-check-circle-fill"></i> Priority Support</li>
+        <li><i class="bi bi-check-circle-fill"></i> Custom Integrations</li>
+      </ul>
+      <button class="btn-plan" (click)="login()">Get Started</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact-section" id="contact">
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <span class="section-tag">Get In Touch</span>
+      <h2>Let's Talk About Your Hotel</h2>
+      <p>Have questions about pricing, features, or implementation? Our team is ready to help.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <i class="bi bi-envelope-fill"></i>
+          <span>support&#64;luxestayhms.com</span>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-telephone-fill"></i>
+          <span>+91 98765 43210</span>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>Chennai, Tamil Nadu, India</span>
+        </div>
+      </div>
+    </div>
+    <form class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="John Smith" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="john@hotel.com" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" placeholder="How can we help?" />
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea rows="4" placeholder="Tell us about your requirements..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary full-width">
+        <i class="bi bi-send-fill me-2"></i>Send Message
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <i class="bi bi-building"></i>
+      <span>LuxeStay <strong>HMS</strong></span>
+      <p>The smart platform for modern hotel management.</p>
+    </div>
+    <div class="footer-links">
+      <h5>Platform</h5>
+      <a (click)="scrollTo('modules')">Features</a>
+      <a (click)="scrollTo('pricing')">Pricing</a>
+      <a (click)="login()">Sign In</a>
+    </div>
+    <div class="footer-links">
+      <h5>Company</h5>
+      <a (click)="scrollTo('about')">About</a>
+      <a (click)="scrollTo('contact')">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 LuxeStay HMS. All rights reserved.</span>
+    <div class="footer-socials">
+      <i class="bi bi-linkedin"></i>
+      <i class="bi bi-twitter-x"></i>
+      <i class="bi bi-github"></i>
+    </div>
+  </div>
+</footer>
 

@@ -74,8 +74,17 @@ export class AddRoomComponent {
       maxNoOfKids: room.maxNoOfKids ?? 0,
       status: String(room.status ?? 'Available'),
       paymentAccountId: String(room.paymentAccount?.paymentAccountId ?? ''),
-      // price: room.roomCharges ?? null,?
-      image: this.selectedImages
+      floorNumber: room.floorNumber ?? 1,
+      image: this.selectedImages,
+      roomStatus: {
+        housekeepingStatus: String(room.roomStatus?.housekeepingStatus ?? 'Clean'),
+        housekeepingPriority: String(room.roomStatus?.housekeepingPriority ?? 'Normal'),
+        maintenanceStatus: room.roomStatus?.maintenanceStatus ?? false,
+        maintenanceNotes: String(room.roomStatus?.maintenanceNotes ?? ''),
+        lockStatus: String(room.roomStatus?.lockStatus ?? 'Unlocked'),
+        specialRequests: String(room.roomStatus?.specialRequests ?? ''),
+        notes: String(room.roomStatus?.notes ?? '')
+      }
     });
 
     // if you have stored image URLs in the room object, load them into selectedImages
@@ -115,6 +124,7 @@ export class AddRoomComponent {
       this.roomTypeSubscription = this.planMasterService.getHotelPlans().subscribe({
         next: (response) => {
           this.hotelPlanMasters = response;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error fetching hotelPlanMaster data', error);
@@ -146,9 +156,17 @@ export class AddRoomComponent {
     maxNoOfKids: [0, [Validators.min(0)]],
     status: ['Available'],
     paymentAccountId: [''],
-    // roomType: ['', Validators.required],
-    // price: [null, [Validators.required, Validators.min(100)]],
-    image: [this.selectedImages, Validators.required]
+    floorNumber: [1, [Validators.min(0)]],
+    roomStatus: this.fb.group({
+      housekeepingStatus: ['Clean'],
+      housekeepingPriority: ['Normal'],
+      maintenanceStatus: [false],
+      maintenanceNotes: [''],
+      lockStatus: ['Unlocked'],
+      specialRequests: [''],
+      notes: ['']
+    }),
+    image: [this.selectedImages]
   });
 
   // Handle file input change 
@@ -192,15 +210,24 @@ export class AddRoomComponent {
 
     const payload: any = {
       roomNumber: f.roomNumber,
-      roomCharges: f.roomCharges,
-      maxNoOfAdults: f.maxNoOfAdults,
-      maxNoOfKids: f.maxNoOfKids,
+      roomCharges: Number(f.roomCharges ?? 0),
+      maxNoOfAdults: Number(f.maxNoOfAdults ?? 1),
+      maxNoOfKids: Number(f.maxNoOfKids ?? 0),
       status: f.status,
-      hotel: {hotelId: this.hotel?.hotelId}, //it has to be dynamic
-      // nested objects:
+      floorNumber: Number(f.floorNumber ?? 1),
+      hotel: { hotelId: this.hotel?.hotelId },
       roomType: { roomTypeId: f.roomTypeId },
       hotelPlanMaster: { hotelPlanMasterId: f.planId },
-      paymentAccount: { paymentAccountId: f.paymentAccountId }
+      paymentAccount: { paymentAccountId: f.paymentAccountId },
+      roomStatus: {
+        housekeepingStatus: f.roomStatus?.housekeepingStatus,
+        housekeepingPriority: f.roomStatus?.housekeepingPriority,
+        maintenanceStatus: f.roomStatus?.maintenanceStatus,
+        maintenanceNotes: f.roomStatus?.maintenanceNotes,
+        lockStatus: f.roomStatus?.lockStatus,
+        specialRequests: f.roomStatus?.specialRequests,
+        notes: f.roomStatus?.notes
+      }
     };
 
     // include roomId when updating

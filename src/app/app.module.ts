@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, DoughnutController, LineController, BarController, Legend, Tooltip } from 'chart.js';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,10 +43,25 @@ import { MatCardModule } from '@angular/material/card';
 import { TopMenuComponent } from './top-menu/top-menu.component';
 import { CarouselModule } from 'primeng/carousel';
 import { PaymentAccount } from './payment/payment-account/payment-account';
+import { HotelPaymentGatewayComponent } from './payment/hotel-payment-gateway/hotel-payment-gateway.component';
+import { PaymentGatewayComponent } from './payment/payment-gateway/payment-gateway.component';
 import { EmployeeService } from './employee/employee.service';
 import { EmployeeShiftScheduleService } from './employee/employee-shift-schedule.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.component';
+import { CreateHotelComponent } from './hotel/create-hotel/create-hotel.component';
+import { DashboardComponent } from './hotel/dashboard/dashboard.component';
+import { HotelPlanComponent } from './hotel/hotel-plan/hotel-plan.component';
+import { EmployeeFormComponent } from './employee/employee-form/employee-form.component';
+import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
+import { EmployeeShiftScheduleComponent } from './employee/employee-shift-schedule/employee-shift-schedule.component';
+import { FormConfigComponent } from './form-config/form-config.component';
+import { DynamicFieldComponent } from './employee/dynamic-field/dynamic-field.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { BaseChartDirective } from 'ng2-charts';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, DoughnutController, LineController, BarController, Legend, Tooltip);
 
 @NgModule({
   declarations: [
@@ -59,7 +75,17 @@ import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.c
     // TopMenuComponent,
     PlanMasterComponent,
     PaymentAccount,
+    HotelPaymentGatewayComponent,
+    PaymentGatewayComponent,
     MainLayoutComponent,
+    CreateHotelComponent,
+    DashboardComponent,
+    HotelPlanComponent,
+    EmployeeFormComponent,
+    EmployeeListComponent,
+    EmployeeShiftScheduleComponent,
+    FormConfigComponent,
+    DynamicFieldComponent,
     // UserProfileComponent
   ],
   imports: [
@@ -85,6 +111,8 @@ import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.c
     CarouselModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule,
+    BaseChartDirective,
     StoreModule.forRoot({ data: dataReducer }),  //initialize app when starts
     EffectsModule.forRoot([DataEffects])        //initialize app when starts
   ],

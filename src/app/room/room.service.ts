@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Room } from '../model/room.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
-  private apiUrl = 'http://localhost:8880';
+  private apiUrl = `${environment.baseUrl}/room`;
 
   constructor(private http: HttpClient, private keycloak: KeycloakService) { }
 
@@ -19,7 +20,7 @@ export class RoomService {
     //  return this.http.get<Room[]>('${this.apiUrl}/room/retrieveRoomList?hotelId=55LQ23392D299EGGVK', {headers});
      
     console.log('Token'+JSON.stringify(this.keycloak.getToken()));
-    return this.http.get<Room[]>('http://localhost:8880/room/retrieveRoomList?hotelId=55LQ23392D299EGGVK', {headers});
+    return this.http.get<Room[]>(`${this.apiUrl}/retrieveRoomList?hotelId=55LQ23392D299EGGVK`, {headers});
     //  return this.http.get<Room[]>('http://localhost:8880/room/retrieveRoomList?hotelId=55LQ23392D299EGGVK', {
     //                     headers: { Authorization: 'Bearer ' + this.keycloak.getToken() },
     //         });//Its not required due to cfg in app module for any request

@@ -1,0 +1,4 @@
+.box { border: 1px solid #d2d6de; border-radius: 4px; background: #fff; }
+.box-header { padding: 10px 15px; }
+.box-body { padding: 15px; }
+.box-footer { padding: 10px 15px; border-top: 1px solid #f4f4f4; }

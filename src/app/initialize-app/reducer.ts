@@ -1,23 +1,43 @@
 import { createReducer, on } from '@ngrx/store';
 import { Hotel } from '../model/hotel.model';
-import { loadHotelFailure, loadHotelSuccess, loadRooms, loadRoomsFailure, loadRoomsSuccess } from './actions';
+import { loadEmployeesFailure, loadEmployeesSuccess, loadFormConfigSuccess, loadHotelFailure, loadHotelSuccess, loadRooms, loadRoomsFailure, loadRoomsSuccess, removeEmployee, saveFormConfigSuccess, upsertEmployee } from './actions';
 import { AppState, RoomState } from './app-state';
 // import { loadDataSuccess } from './data.actions';
 
 export const initialState: AppState = {
-  hotel: null
+  hotel:       null,
+  employees:   [],
+  formConfigs: {}
 };
 
 export const dataReducer = createReducer(
   initialState,
-  on(loadHotelSuccess, (state, { hotel}) => ({
+  on(loadHotelSuccess, (state, { hotel }) => ({ ...state, hotel })),
+  on(loadHotelFailure, (state, { error }) => ({ ...state, error })),
+
+  on(loadEmployeesSuccess, (state, { employees }) => ({ ...state, employees })),
+  on(loadEmployeesFailure, (state) => ({ ...state, employees: [] })),
+
+  on(upsertEmployee, (state, { employee }) => {
+    const exists = state.employees.some(e => e.employeeId === employee.employeeId);
+    const employees = exists
+      ? state.employees.map(e => e.employeeId === employee.employeeId ? employee : e)
+      : [...state.employees, employee];
+    return { ...state, employees };
+  }),
+
+  on(removeEmployee, (state, { employeeId }) => ({
     ...state,
-    hotel
+    employees: state.employees.filter(e => e.employeeId !== employeeId)
   })),
-  on(loadHotelFailure, (state, { error }) => ({
+
+  on(loadFormConfigSuccess, (state, { entityType, fields }) => ({
     ...state,
-    loading: false,
-    error
+    formConfigs: { ...state.formConfigs, [entityType]: fields }
+  })),
+  on(saveFormConfigSuccess, (state, { entityType, fields }) => ({
+    ...state,
+    formConfigs: { ...state.formConfigs, [entityType]: fields }
   }))
 );
 

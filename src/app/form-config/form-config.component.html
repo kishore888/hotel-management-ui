@@ -1,0 +1,113 @@
+<div class="container-fluid py-3">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div class="d-flex align-items-center gap-3">
+      <h5 class="mb-0"><i class="bi bi-sliders me-2"></i>Form Field Configuration</h5>
+      <select class="form-select form-select-sm" style="width:160px"
+        [(ngModel)]="entityType" (ngModelChange)="onEntityTypeChange()">
+        <option *ngFor="let et of entityTypes" [value]="et.value">{{ et.label }}</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving || loading || fields.length === 0">
+      <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+      Save Configuration
+    </button>
+  </div>
+
+  <div *ngIf="saveSuccess" class="alert alert-success alert-dismissible py-2">
+    Configuration saved successfully.
+    <button type="button" class="btn-close btn-sm" (click)="saveSuccess=false"></button>
+  </div>
+  <div *ngIf="saveError" class="alert alert-danger py-2">{{ saveError }}</div>
+
+  <div *ngIf="loading" class="text-center py-4">
+    <span class="spinner-border text-primary me-2"></span> Loading field configuration…
+  </div>
+
+  <div *ngIf="!loading && fields.length === 0" class="alert alert-warning py-2">
+    No fields found. Please ensure the backend is running and hotel is selected.
+  </div>
+
+  <div class="card shadow-sm" *ngIf="!loading && fields.length > 0">
+    <div class="card-body p-0">
+      <table class="table table-sm table-bordered align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th style="width:40px"></th>
+            <th style="width:180px">Field</th>
+            <th style="width:180px">Label</th>
+            <th style="width:110px">Type</th>
+            <th style="width:80px" class="text-center">Visible</th>
+            <th style="width:80px" class="text-center">Required</th>
+            <th style="width:90px">Max Length</th>
+            <th>Pattern (regex)</th>
+            <th>Pattern Message</th>
+            <th style="width:80px" class="text-center">Order</th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+          <tr *ngFor="let field of fields; let i = index" cdkDrag class="drag-row">
+            <td class="text-center drag-handle" cdkDragHandle>
+              <i class="bi bi-grip-vertical text-secondary"></i>
+            </td>
+            <td>
+              <small class="text-muted fw-semibold">{{ field.fieldName }}</small>
+            </td>
+            <td>
+              <input class="form-control form-control-sm" [(ngModel)]="field.label" />
+            </td>
+            <td>
+              <select class="form-select form-select-sm" [(ngModel)]="field.fieldType">
+                <option value="text">text</option>
+                <option value="number">number</option>
+                <option value="date">date</option>
+                <option value="select">select</option>
+                <option value="checkbox">checkbox</option>
+              </select>
+            </td>
+            <td class="text-center">
+              <div class="form-check form-switch d-flex justify-content-center">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="field.visible" />
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="form-check form-switch d-flex justify-content-center">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="field.required"
+                  [disabled]="!field.visible" />
+              </div>
+            </td>
+            <td>
+              <input class="form-control form-control-sm" type="number" min="1"
+                [(ngModel)]="field.maxLength" placeholder="—" />
+            </td>
+            <td>
+              <input class="form-control form-control-sm font-monospace"
+                [(ngModel)]="field.patternRegex" placeholder="e.g. ^[A-Z]{5}[0-9]{4}[A-Z]$" />
+            </td>
+            <td>
+              <input class="form-control form-control-sm"
+                [(ngModel)]="field.patternMessage" placeholder="Validation message" />
+            </td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-1">
+                <button class="btn btn-outline-secondary btn-sm py-0 px-1" (click)="moveUp(i)"
+                  [disabled]="i === 0" title="Move up">
+                  <i class="bi bi-chevron-up"></i>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm py-0 px-1" (click)="moveDown(i)"
+                  [disabled]="i === fields.length - 1" title="Move down">
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="text-muted small mt-2">
+    <i class="bi bi-info-circle me-1"></i>
+    Drag rows or use arrows to reorder. Hidden fields will not appear in the employee form.
+    Required fields marked with <span class="text-danger">*</span> in the form.
+  </p>
+</div>

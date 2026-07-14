@@ -1,0 +1,25 @@
+<div class="box-body">
+  <div *ngIf="errorMessage" class="alert alert-danger py-2">{{ errorMessage }}</div>
+
+  <form *ngIf="employeeForm" [formGroup]="employeeForm" novalidate>
+    <div class="row g-3">
+      <div class="col-md-4" *ngFor="let field of visibleFields">
+        <label class="form-label">
+          {{ field.label }}
+          <span class="text-danger" *ngIf="field.required">*</span>
+        </label>
+        <app-dynamic-field [field]="field" [form]="employeeForm"></app-dynamic-field>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="!employeeForm" class="text-muted py-3">Loading form configuration…</div>
+</div>
+
+<div class="box-footer">
+  <button type="button" class="btn btn-primary btn-sm me-2" (click)="submitForm()"
+    [disabled]="!employeeForm">
+    {{ isEditMode ? 'Update Employee' : 'Save Employee' }}
+  </button>
+  <button type="button" class="btn btn-warning btn-sm" (click)="cancel()">Cancel</button>
+</div>

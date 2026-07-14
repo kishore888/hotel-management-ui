@@ -1,0 +1,40 @@
+<ng-container [formGroup]="form">
+
+  <!-- TEXT -->
+  <ng-container *ngIf="field.fieldType === 'text'">
+    <input class="form-control form-control-sm" [formControlName]="field.fieldName"
+      [placeholder]="field.label"
+      [attr.maxlength]="field.maxLength || null" />
+  </ng-container>
+
+  <!-- NUMBER -->
+  <ng-container *ngIf="field.fieldType === 'number'">
+    <input class="form-control form-control-sm" type="number" [formControlName]="field.fieldName"
+      [placeholder]="field.label" min="0" />
+  </ng-container>
+
+  <!-- DATE -->
+  <ng-container *ngIf="field.fieldType === 'date'">
+    <input class="form-control form-control-sm" type="date" [formControlName]="field.fieldName" />
+  </ng-container>
+
+  <!-- SELECT -->
+  <ng-container *ngIf="field.fieldType === 'select'">
+    <select class="form-select form-select-sm" [formControlName]="field.fieldName">
+      <option value="">-- Select --</option>
+      <option *ngFor="let opt of optionsList" [value]="opt">{{ opt }}</option>
+    </select>
+  </ng-container>
+
+  <!-- CHECKBOX (boolean) -->
+  <ng-container *ngIf="field.fieldType === 'checkbox'">
+    <select class="form-select form-select-sm" [formControlName]="field.fieldName">
+      <option [ngValue]="false">No</option>
+      <option [ngValue]="true">Yes</option>
+    </select>
+  </ng-container>
+
+  <!-- Validation message -->
+  <div class="invalid-feedback d-block" *ngIf="isInvalid">{{ errorMessage }}</div>
+
+</ng-container>
