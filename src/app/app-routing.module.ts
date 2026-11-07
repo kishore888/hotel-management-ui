@@ -18,6 +18,7 @@ import { PaymentAccount } from './payment/payment-account/payment-account';
 import { HotelPaymentGatewayComponent } from './payment/hotel-payment-gateway/hotel-payment-gateway.component';
 import { PaymentGatewayComponent } from './payment/payment-gateway/payment-gateway.component';
 import { HotelPlanComponent } from './hotel/hotel-plan/hotel-plan.component';
+import { ReservationComponent } from './room/reservation/reservation.component';
 
 export const routes: Routes = [
   // {path:"",redirectTo:"home",pathMatch:"full"},//working scenario
@@ -48,7 +49,8 @@ export const routes: Routes = [
       { path: 'paymentAccount/create', component: PaymentAccount },
       { path: 'hotelPaymentGateway/create', component: HotelPaymentGatewayComponent },
       { path: 'paymentGateway/create', component: PaymentGatewayComponent },
-      { path: 'hotelPlan/create', component: HotelPlanComponent }
+      { path: 'hotelPlan/create', component: HotelPlanComponent },
+      { path: 'room/reservation', component: ReservationComponent }
     ]
   },
   { path: '**', redirectTo: '' }

@@ -1,0 +1,230 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="col-md-12">
+      <form role="form" id="reservationform" (ngSubmit)="onSubmit()">
+        <input type="hidden" name="customerId" [(ngModel)]="customer.customerId">
+        <input type="hidden" name="customerImage" id="customer_image" [(ngModel)]="customer.customerImage">
+        <!-- <input type="hidden" name="roomId" [(ngModel)]="room.roomId"> -->
+
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Reservation for room no <b>{{ reservationList[0]?.room?.roomNumber }}</b></h3>
+          </div>
+
+          <div class="box-body">
+            <div class="row reservation-form-row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="customer.firstName" placeholder="First Name" required>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="customer.lastName" placeholder="Last Name" required>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="phoneNo1">Phone No1</label>
+                  <input type="text" class="form-control" id="phoneNo1" name="phoneNo1" [(ngModel)]="customer.phoneNo1" placeholder="phoneNo1" required>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="reservation-camera">
+                  <div id="my_camera" [class.webcam-maximized]="isWebcamMaximized">
+                    <video #videoPreview *ngIf="isCameraActive" autoplay playsinline muted></video>
+                    <img id="imageprev" *ngIf="!isCameraActive" [src]="customer.customerImage || 'assets/deluxe.jpeg'" />
+                    <div *ngIf="isCameraActive && isWebcamMaximized" class="webcam-controls">
+                      <button type="button" class="btn btn-default btn-sm" (click)="toggleWebcamMaximize()">
+                        <i class="fa fa-compress"></i> Minimize
+                      </button>
+                      <button type="button" class="btn btn-default btn-sm" (click)="takeSnapshot()">
+                        <i class="fa fa-camera"></i> Snapshot
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm" (click)="stopWebcam()">
+                        <i class="fa fa-times"></i> Close
+                      </button>
+                    </div>
+                  </div>
+                  <canvas #captureCanvas hidden></canvas>
+                  <div class="btn-group btn-group-sm" *ngIf="!isWebcamMaximized">
+                    <input type="button" class="btn btn-default" value="WebCam" (click)="initializeWebCam()">
+                    <input type="button" class="btn btn-default" value="Snapshot" (click)="takeSnapshot()" *ngIf="isCameraActive">
+                    <input type="button" class="btn btn-default" *ngIf="isCameraActive" value="Maximize" (click)="toggleWebcamMaximize()">
+                  </div>
+                  <div *ngIf="webcamError" class="text-danger">{{ webcamError }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="middleName">Middle Name</label>
+                  <input type="text" class="form-control" id="middleName" name="middleName" [(ngModel)]="customer.middleName" placeholder="Middle Name">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select class="form-control" id="gender" name="gender" [(ngModel)]="customer.gender" required>
+                    <option value="">--Select--</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="phoneNo2">Phone No2</label>
+                  <input type="text" class="form-control" id="phoneNo2" name="phoneNo2" [(ngModel)]="customer.phoneNo2" placeholder="phoneNo2">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="emailId">Email</label>
+                  <input type="email" class="form-control" id="emailId" name="emailId" [(ngModel)]="customer.emailId" placeholder="emailId" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="doorNo">D.No</label>
+                  <input type="text" class="form-control" id="doorNo" name="doorNo" [(ngModel)]="customer.doorNo" placeholder="Door No">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="state">State</label>
+                  <input type="text" class="form-control" id="state" name="state" [(ngModel)]="customer.state" placeholder="State">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="idType">Id Type</label>
+                  <select class="form-control" id="idType" name="idType" [(ngModel)]="customer.idType">
+                    <option value="">--Select--</option>
+                    <option value="AadharCard">AadharCard</option>
+                    <option value="VoterId">VoterId</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="street">Street</label>
+                  <input type="text" class="form-control" id="street" name="street" [(ngModel)]="customer.street" placeholder="Street">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <input type="text" class="form-control" id="country" name="country" [(ngModel)]="customer.country" placeholder="Country">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="idValue">Id Value</label>
+                  <input type="text" class="form-control" id="idValue" name="idValue" [(ngModel)]="customer.idValue" placeholder="Id Value" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" id="city" name="city" [(ngModel)]="customer.city" placeholder="City">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="religion">Religion</label>
+                  <input type="text" class="form-control" id="religion" name="religion" [(ngModel)]="customer.religion" placeholder="Religion">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="occupation">Occupation</label>
+                  <input type="text" class="form-control" id="occupation" name="occupation" [(ngModel)]="customer.occupation" placeholder="Occupation">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row" *ngFor="let reservation of reservationList; let i = index">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Room No</label><br>
+                  {{ reservation.room.roomNumber }}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="checkIn{{i}}">Check In</label>
+                  <input type="datetime-local" class="form-control" [id]="'checkIn' + i" name="checkIn{{i}}" [(ngModel)]="reservation.checkIn">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="checkOut{{i}}">Check Out</label>
+                  <input type="datetime-local" class="form-control" [id]="'checkOut' + i" name="checkOut{{i}}" [(ngModel)]="reservation.checkOut">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="amount{{i}}">Amount</label>
+                  <input type="number" class="form-control amount" [id]="'amount' + i" name="amount{{i}}" [(ngModel)]="reservation.amount" (ngModelChange)="calculateTotal()">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="totalAmount">Total Amount</label>
+                  <input type="text" class="form-control" id="totalAmount" name="totalAmount" [ngModel]="totalAmount" readonly>
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>
+                    <input type="radio" name="paymentType" [checked]="paymentType === 'CASH'" (click)="onPaymentTypeChange('CASH')">
+                    Cash
+                  </label>
+                  <label *ngFor="let paymentAccount of paymentAccountList">
+                    <input type="radio" name="paymentType" [checked]="paymentType === 'online'" (click)="onPaymentTypeChange(paymentAccount)">
+                    {{ paymentAccount.hotelPaymentGateway.paymentGateway?.paymentGatewayName }}
+                    <!-- <input type="hidden" name="paymentAccountId" [(ngModel)]="paymentAccountId" [value]="gateway.paymentAccount?.paymentAccountId">
+                  <input type="hidden" name="hotelPaymentGatewayId" [(ngModel)]="hotelPaymentGatewayId" [value]="gateway.hotelPaymentGatewayId"> -->
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-footer">
+            <div align="center">
+              <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+              <input type="button" class="btn btn-warning" value="Back" onclick="history.go(-1);"/>
+            </div>
+            <div *ngIf="submissionMessage" class="text-center mt-10" [ngClass]="submissionMessage.includes('failed') ? 'text-danger' : 'text-success'">
+              {{ submissionMessage }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>

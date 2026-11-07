@@ -1,15 +1,8 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../model/room.model';
-import { RoomType } from '../model/room-type.model';
-import { HotelPlanMaster } from '../model/hotel-plan-master.model';
-import { PaymentAccount } from '../model/payment-account.model';
-import { Hotel } from '../model/hotel.model';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RoomService } from './room.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalBootstrapComponent } from '../modal/modal-bootstrap/modal-bootstrap.component';
+import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import * as JSOG from 'jsog';
 
@@ -22,11 +15,17 @@ import * as JSOG from 'jsog';
 export class RoomComponent implements OnInit, OnDestroy{
   private roomSubscription: Subscription = new Subscription();
   roomList: Room[] = [];
-  //modal declarations
-  // private modalService = inject(NgbModal);
-	closeResult = '';
+  isBookingModalOpen = false;
+  selectedRoom: Room | null = null;
+  bookingGuestName = '';
+  bookingCheckInDate = '';
+  bookingCheckOutDate = '';
+  bookingNotes = '';
+  isBooking = false;
+  bookingMessage = '';
+  closeResult = '';
 
-  constructor(private roomService: RoomService, private router: Router, private modalService: NgbModal, private keycloakService: KeycloakService,private cdr: ChangeDetectorRef) {
+  constructor(private roomService: RoomService, private router: Router, private keycloakService: KeycloakService, private cdr: ChangeDetectorRef) {
     // this.getRooms();
     // roomService.getRooms().subscribe((response) =>{
     //   try{
@@ -102,12 +101,75 @@ export class RoomComponent implements OnInit, OnDestroy{
     this.router.navigate(['/addRoom'],{state: {room}});
   }
 
-  bookingRoom(event: Event): void {
-    const target = event.target as HTMLElement;
-    const dataRoomId = target.getAttribute('data-roomId');
-    this.modalService.open(ModalBootstrapComponent);
-    console.log("open modal");
+  navigateToReservation(room: Room): void {
+    this.router.navigate(['/room/reservation'], { state: { room } });
+  }
 
+  openBookingModal(room: Room): void {
+    this.selectedRoom = room;
+    this.bookingGuestName = '';
+    this.bookingCheckInDate = '';
+    this.bookingCheckOutDate = '';
+    this.bookingNotes = '';
+    this.bookingMessage = '';
+    this.isBookingModalOpen = true;
+  }
+
+  submitBooking(): void {
+    if (!this.selectedRoom) {
+      return;
+    }
+
+    if (!this.bookingGuestName.trim()) {
+      this.bookingMessage = 'Please enter the guest name.';
+      return;
+    }
+
+    this.isBooking = true;
+    this.bookingMessage = '';
+
+    const payload = {
+      roomId: this.selectedRoom.roomId,
+      guestName: this.bookingGuestName.trim(),
+      checkInDate: this.bookingCheckInDate || null,
+      checkOutDate: this.bookingCheckOutDate || null,
+      notes: this.bookingNotes.trim(),
+      status: 'Reserved'
+    };
+
+    const selectedRoom = this.selectedRoom;
+
+    this.roomService.bookRoom(payload).subscribe({
+      next: () => {
+        this.roomList = this.roomList.map((room) => {
+          if (room.roomId === selectedRoom?.roomId) {
+            return { ...room, status: 'Reserved' };
+          }
+          return room;
+        });
+
+        if (selectedRoom?.roomStatus) {
+          selectedRoom.roomStatus.isReserved = true;
+          selectedRoom.roomStatus.currentGuestId = payload.guestName;
+          selectedRoom.roomStatus.checkInDate = payload.checkInDate ? new Date(payload.checkInDate) : new Date();
+          selectedRoom.roomStatus.checkOutDate = payload.checkOutDate ? new Date(payload.checkOutDate) : new Date();
+        }
+
+        this.bookingMessage = `Room ${selectedRoom?.roomNumber ?? ''} has been booked successfully.`;
+        this.isBooking = false;
+        this.isBookingModalOpen = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Booking failed', error);
+        this.isBooking = false;
+        this.bookingMessage = 'Booking failed. Please try again.';
+      }
+    });
+  }
+
+  closeBookingModal(): void {
+    this.isBookingModalOpen = false;
   }
   // openBookingRoom(content: TemplateRef<any>) {
 	// 	this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(

@@ -35,7 +35,7 @@
               <select class="form-control" id="hotelPaymentGateway" name="hotelPaymentGateway" [(ngModel)]="paymentAccount.hotelPaymentGateway">
                 <option [ngValue]="null">Select Gateway</option>
                 <option *ngFor="let gateway of hotelPaymentGateways" [ngValue]="gateway">
-                  {{ gateway.paymentGateway?.paymentGatewayName || gateway.merchantId }}
+                  {{ gateway.paymentGateway.paymentGatewayName || gateway.merchantId }}
                 </option>
               </select>
             </div>

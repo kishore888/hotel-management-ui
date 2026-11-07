@@ -52,6 +52,7 @@ import { MainLayoutComponent } from './hotel/main-layout.component/main-layout.c
 import { CreateHotelComponent } from './hotel/create-hotel/create-hotel.component';
 import { DashboardComponent } from './hotel/dashboard/dashboard.component';
 import { HotelPlanComponent } from './hotel/hotel-plan/hotel-plan.component';
+import { ReservationComponent } from './room/reservation/reservation.component';
 import { EmployeeFormComponent } from './employee/employee-form/employee-form.component';
 import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
 import { EmployeeShiftScheduleComponent } from './employee/employee-shift-schedule/employee-shift-schedule.component';
@@ -81,6 +82,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarEleme
     CreateHotelComponent,
     DashboardComponent,
     HotelPlanComponent,
+    ReservationComponent,
     EmployeeFormComponent,
     EmployeeListComponent,
     EmployeeShiftScheduleComponent,

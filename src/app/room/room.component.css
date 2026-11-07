@@ -8,4 +8,37 @@
   .room-card {
     width: 300px;
   }
+
+  .booking-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    padding: 20px;
+  }
+
+  .booking-modal-panel {
+    width: 100%;
+    max-width: 560px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  .booking-modal-panel .modal-header,
+  .booking-modal-panel .modal-body,
+  .booking-modal-panel .modal-footer {
+    padding: 16px 20px;
+  }
+
+  .booking-modal-panel .modal-footer {
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
   

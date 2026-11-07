@@ -41,7 +41,16 @@ export class RoomService {
     //  return this.http.get('http://localhost:8882/room/retrieveRoomList?hotelId=55LQ23392D299EGGVK', {responseType: 'text'}).pipe(map(response => JSON.parse(response)),catchError(this.handleError));
   }
 
-  
+  bookRoom(payload: unknown): Observable<unknown> {
+    return this.http.post<unknown>(`${this.apiUrl}/bookRoom`, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  getRoomById(roomId: string): Observable<Room> {
+    const headers = { 'Content-Type': 'application/json' };
+    return this.http.get<Room>(`${this.apiUrl}/retrieveRoomById?roomId=${roomId}`, { headers });
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

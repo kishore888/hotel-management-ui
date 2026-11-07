@@ -3,25 +3,25 @@ import { PaymentGateway } from "./payment-gateway";
 
 export class HotelPaymentGateway {
     constructor(
-        hotelPaymentGatewayId: String,
-        hotel: Hotel,
-        paymentGateway: PaymentGateway,
-        merchantId: String,
-        merchantKey: String,
-        salt: String,
-        isActive: Boolean,
-        createdBy: String,
-        createdOn: Date,
-        updatedBy: String,
-        updatedOn: Date
+        hotelPaymentGatewayId?: String,
+        hotel?: Hotel,
+        paymentGateway?: PaymentGateway,
+        merchantId?: String,
+        merchantKey?: String,
+        salt?: String,
+        isActive?: Boolean,
+        createdBy?: String,
+        createdOn?: Date,
+        updatedBy?: String,
+        updatedOn?: Date
     ) {
-        this.hotelPaymentGatewayId = hotelPaymentGatewayId;
-        this.hotel = hotel;
-        this.paymentGateway = paymentGateway;
-        this.merchantId = merchantId;
-        this.merchantKey = merchantKey;
-        this.salt = salt;
-        this.isActive = isActive,
+        this.hotelPaymentGatewayId = hotelPaymentGatewayId || '';
+        this.hotel = hotel || {} as any;
+        this.paymentGateway = paymentGateway || {} as any;
+        this.merchantId = merchantId || '';
+        this.merchantKey = merchantKey || '';
+        this.salt = salt || '';
+        this.isActive = isActive || false,
         this.createdBy = createdBy;
         this.createdOn = createdOn;
         this.updatedBy = updatedBy;
@@ -35,8 +35,8 @@ export class HotelPaymentGateway {
     merchantKey: String;
     salt: String;
     isActive: Boolean;
-    createdBy: String;
-    createdOn: Date;
-    updatedBy: String;
-    updatedOn: Date;
+    createdBy?: String;
+    createdOn?: Date;
+    updatedBy?: String;
+    updatedOn?: Date;
 }
