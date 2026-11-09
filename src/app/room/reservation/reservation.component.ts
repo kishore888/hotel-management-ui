@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ReservationService } from './reservation.service';
-import { HotelPaymentGatewayService } from '../../payment/hotel-payment-gateway/hotel-payment-gateway.service';
 import { PaymentAccountService } from '../../payment/payment-account/payment-account.service';
+import { RoomService } from '../../room/room.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reservation',
@@ -47,22 +49,56 @@ export class ReservationComponent implements OnDestroy {
   paymentAccountId = '';
   hotelPaymentGatewayId = '';
   totalAmount = 0;
-  // hotelPaymentGatewayList: Array<any> = [];
+  totalCharges = 0;
+  balanceAmount = 0;
   paymentAccountList: Array<any> = [];
+  availableRooms: Array<any> = [];
   isCameraActive = false;
   webcamError = '';
   submissionMessage = '';
   isWebcamMaximized = false;
   private stream: MediaStream | null = null;
 
-  constructor(private reservationService: ReservationService, private cdr: ChangeDetectorRef, private hotelPaymentGatewayService: HotelPaymentGatewayService,
-    private paymentAccountService: PaymentAccountService
-  ) {}
+  constructor(private reservationService: ReservationService, private cdr: ChangeDetectorRef,
+    private paymentAccountService: PaymentAccountService,
+    private roomService: RoomService,
+    private router: Router
+  ) {
+    // Subscribe to router events to detect navigation to this component
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if (event.urlAfterRedirects.includes('/room/reservation')) {
+        console.log('Navigated to reservation page, reloading data');
+        this.loadPaymentAccounts();
+        this.loadAvailableRooms();
+        this.handleNavigationState();
+      }
+    });
+  }
 
   ngOnInit(): void {
+    this.loadPaymentAccounts();
+    this.loadAvailableRooms();
+    this.handleNavigationState();
+  }
+
+  handleNavigationState(): void {
     const navRoom = (history.state && history.state['room']) ? history.state['room'] : null;
-    if (navRoom) {
-      // If reservationList is empty, create a new reservation object
+    const navRooms = (history.state && history.state['rooms']) ? history.state['rooms'] : null;
+
+    if (navRooms && navRooms.length > 0) {
+      // Handle multiple rooms selected from room list
+      this.reservationList = navRooms.map((room: any) => ({
+        room: room,
+        reservationId: '',
+        checkIn: '',
+        checkOut: '',
+        amount: room.roomCharges || 0
+      }));
+      console.log('Multiple rooms loaded:', this.reservationList);
+    } else if (navRoom) {
+      // Handle single room
       if (this.reservationList.length === 0) {
         this.reservationList.push({
           room: navRoom,
@@ -72,7 +108,6 @@ export class ReservationComponent implements OnDestroy {
           amount: navRoom.roomCharges || 0
         });
       } else {
-        // Assign navRoom to the first reservation's room
         this.reservationList[0].room = navRoom;
         this.reservationList[0].amount = navRoom.roomCharges || 0;
       }
@@ -81,30 +116,33 @@ export class ReservationComponent implements OnDestroy {
     }
 
     this.calculateTotal();
+  }
 
-    // // Load hotel payment gateways
-    // if (this.hotelPaymentGatewayService) {
-    //   this.hotelPaymentGatewayService.getHotelPaymentGateways().subscribe({
-    //     next: (gateways) => {
-    //       this.hotelPaymentGatewayList = gateways || [];
-    //     },
-    //     error: (error) => {
-    //       console.error('Failed to load payment gateways', error);
-    //       this.hotelPaymentGatewayList = [];
-    //     }
-    //   });
-    // }
-    
-    // Load payment accounts
+  loadAvailableRooms(): void {
+    this.roomService.getRooms().subscribe({
+      next: (rooms) => {
+        this.availableRooms = rooms || [];
+        console.log('Available rooms loaded:', this.availableRooms);
+      },
+      error: (error) => {
+        console.error('Failed to load available rooms', error);
+        this.availableRooms = [];
+      }
+    });
+  }
+
+  loadPaymentAccounts(): void {
     if (this.paymentAccountService) {
       this.paymentAccountService.getPaymentAccounts().subscribe({
         next: (accounts) => {
           console.log('Payment accounts loaded:', accounts);
           this.paymentAccountList = accounts || [];
+          this.cdr.detectChanges(); // Force change detection
         },
         error: (error) => {
           console.error('Failed to load payment accounts', error);
           this.paymentAccountList = [];
+          this.cdr.detectChanges(); // Force change detection
         }
       });
     }
@@ -182,6 +220,8 @@ export class ReservationComponent implements OnDestroy {
 
   calculateTotal(): void {
     this.totalAmount = this.reservationList.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    this.totalCharges = this.reservationList.reduce((sum, item) => sum + Number(item.room?.roomCharges || 0), 0);
+    this.balanceAmount = this.totalCharges - this.totalAmount;
   }
 
   onPaymentTypeChange(selected: any): void {
@@ -191,11 +231,65 @@ export class ReservationComponent implements OnDestroy {
       this.paymentType = 'CASH';
     } else {
       console.log('Payment type paymentAccountId:', selected.paymentAccountId);
-    console.log('Payment type hotelPaymentGatewayId:', selected.hotelPaymentGateway.hotelPaymentGatewayId);
-      this.paymentAccountId = selected.paymentAccountId;
-      this.paymentType = 'online';
-      this.hotelPaymentGatewayId = selected.hotelPaymentGateway.hotelPaymentGatewayId;
+      console.log('Payment type hotelPaymentGatewayId:', selected.hotelPaymentGateway?.hotelPaymentGatewayId);
+      this.paymentAccountId = selected.paymentAccountId || '';
+      this.paymentType = selected.hotelPaymentGateway?.hotelPaymentGatewayId || 'online';
+      this.hotelPaymentGatewayId = selected.hotelPaymentGateway?.hotelPaymentGatewayId || '';
     }
+  }
+
+  addRoom(): void {
+    this.reservationList.push({
+      room: { roomId: '', roomNumber: '', roomCharges: 0 },
+      reservationId: '',
+      checkIn: '',
+      checkOut: '',
+      amount: 0
+    });
+  }
+
+  removeRoom(index: number): void {
+    if (this.reservationList.length > 1) {
+      this.reservationList.splice(index, 1);
+      this.calculateTotal();
+    }
+  }
+
+  onRoomChange(index: number): void {
+    const room = this.reservationList[index].room;
+    if (room && room.roomCharges) {
+      this.reservationList[index].amount = room.roomCharges;
+      this.calculateTotal();
+    }
+  }
+
+  makeAdditionalPayment(): void {
+    // Calculate the balance amount
+    const maxPayment = this.balanceAmount;
+    const paymentAmount = prompt(`Enter additional payment amount (Max: ₹${maxPayment}):`, maxPayment.toString());
+    
+    if (paymentAmount && !isNaN(Number(paymentAmount))) {
+      const amount = Number(paymentAmount);
+      if (amount > 0 && amount <= maxPayment) {
+        // Add to total amount
+        this.totalAmount += amount;
+        this.balanceAmount = this.totalCharges - this.totalAmount;
+        this.submissionMessage = `Additional payment of ₹${amount} recorded successfully. Balance: ₹${this.balanceAmount}`;
+        
+        // Optionally, you could trigger a payment gateway call here for online payments
+        if (this.paymentType !== 'CASH') {
+          this.processOnlinePayment(amount);
+        }
+      } else {
+        this.submissionMessage = 'Invalid payment amount. Please enter a value between 0 and ' + maxPayment;
+      }
+    }
+  }
+
+  processOnlinePayment(amount: number): void {
+    // This would call the payment gateway for online payments
+    console.log('Processing online payment of:', amount);
+    // Implementation would depend on your payment gateway integration
   }
 
   private formatDateToBackend(dateString: string): string {

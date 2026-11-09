@@ -15,6 +15,9 @@ import * as JSOG from 'jsog';
 export class RoomComponent implements OnInit, OnDestroy{
   private roomSubscription: Subscription = new Subscription();
   roomList: Room[] = [];
+  selectAllRooms = false;
+  selectedRoomIds: Set<string> = new Set();
+  selectedRooms: Room[] = [];
   isBookingModalOpen = false;
   selectedRoom: Room | null = null;
   bookingGuestName = '';
@@ -103,6 +106,43 @@ export class RoomComponent implements OnInit, OnDestroy{
 
   navigateToReservation(room: Room): void {
     this.router.navigate(['/room/reservation'], { state: { room } });
+  }
+
+  toggleSelectAll(): void {
+    if (this.selectAllRooms) {
+      this.roomList.forEach(room => {
+        this.selectedRoomIds.add((room.roomId || '').toString());
+      });
+    } else {
+      this.selectedRoomIds.clear();
+    }
+    this.updateSelectedRooms();
+  }
+
+  updateSelectedRooms(): void {
+    this.selectedRooms = this.roomList.filter(room => this.selectedRoomIds.has((room.roomId || '').toString()));
+    this.selectAllRooms = this.selectedRooms.length === this.roomList.length && this.roomList.length > 0;
+  }
+
+  isRoomSelected(roomId: string): boolean {
+    return this.selectedRoomIds.has(roomId?.toString() || '');
+  }
+
+  toggleRoomSelection(roomId: string): void {
+    const id = roomId?.toString() || '';
+    if (this.selectedRoomIds.has(id)) {
+      this.selectedRoomIds.delete(id);
+    } else {
+      this.selectedRoomIds.add(id);
+    }
+    this.updateSelectedRooms();
+  }
+
+  bookSelectedRooms(): void {
+    if (this.selectedRooms.length === 0) {
+      return;
+    }
+    this.router.navigate(['/room/reservation'], { state: { rooms: this.selectedRooms } });
   }
 
   openBookingModal(room: Room): void {

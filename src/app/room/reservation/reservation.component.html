@@ -163,8 +163,13 @@
             <div class="row reservation-form-row" *ngFor="let reservation of reservationList; let i = index">
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>Room No</label><br>
-                  {{ reservation.room.roomNumber }}
+                  <label for="room{{i}}">Room No</label>
+                  <select class="form-control" [id]="'room' + i" name="room{{i}}" [(ngModel)]="reservation.room" (ngModelChange)="onRoomChange(i)">
+                    <option value="">--Select Room--</option>
+                    <option *ngFor="let room of availableRooms" [value]="room" [selected]="reservation.room?.roomId === room.roomId">
+                      {{ room.roomNumber }} - {{ room.roomType?.roomType }} (₹{{ room.roomCharges }})
+                    </option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-3">
@@ -179,19 +184,50 @@
                   <input type="datetime-local" class="form-control" [id]="'checkOut' + i" name="checkOut{{i}}" [(ngModel)]="reservation.checkOut">
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label for="amount{{i}}">Amount</label>
                   <input type="number" class="form-control amount" [id]="'amount' + i" name="amount{{i}}" [(ngModel)]="reservation.amount" (ngModelChange)="calculateTotal()">
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>&nbsp;</label><br>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="removeRoom(i)" *ngIf="reservationList.length > 1">
+                    <i class="fa fa-trash"></i> Remove
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div class="row reservation-form-row">
-              <div class="col-md-4">
+              <div class="col-md-12">
+                <button type="button" class="btn btn-success" (click)="addRoom()">
+                  <i class="fa fa-plus"></i> Add Another Room
+                </button>
+                <button type="button" class="btn btn-info" (click)="makeAdditionalPayment()" *ngIf="balanceAmount > 0">
+                  <i class="fa fa-credit-card"></i> Make Additional Payment
+                </button>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row">
+              <div class="col-md-3">
                 <div class="form-group">
-                  <label for="totalAmount">Total Amount</label>
+                  <label for="totalCharges">Total Charges</label>
+                  <input type="text" class="form-control" id="totalCharges" name="totalCharges" [ngModel]="totalCharges" readonly>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="totalAmount">Total Amount Paid</label>
                   <input type="text" class="form-control" id="totalAmount" name="totalAmount" [ngModel]="totalAmount" readonly>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="balanceAmount">Balance Amount</label>
+                  <input type="text" class="form-control" id="balanceAmount" name="balanceAmount" [ngModel]="balanceAmount" readonly>
                 </div>
               </div>
             </div>
@@ -204,11 +240,10 @@
                     Cash
                   </label>
                   <label *ngFor="let paymentAccount of paymentAccountList">
-                    <input type="radio" name="paymentType" [checked]="paymentType === 'online'" (click)="onPaymentTypeChange(paymentAccount)">
-                    {{ paymentAccount.hotelPaymentGateway.paymentGateway?.paymentGatewayName }}
-                    <!-- <input type="hidden" name="paymentAccountId" [(ngModel)]="paymentAccountId" [value]="gateway.paymentAccount?.paymentAccountId">
-                  <input type="hidden" name="hotelPaymentGatewayId" [(ngModel)]="hotelPaymentGatewayId" [value]="gateway.hotelPaymentGatewayId"> -->
+                    <input type="radio" name="paymentType" [checked]="paymentType === paymentAccount.paymentAccountId" (click)="onPaymentTypeChange(paymentAccount)">
+                    {{ paymentAccount.hotelPaymentGateway?.paymentGateway?.paymentGatewayName }}
                   </label>
+                  <input type="hidden" name="paymentAccountId" [(ngModel)]="paymentAccountId">
                 </div>
               </div>
             </div>

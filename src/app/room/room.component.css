@@ -4,9 +4,42 @@
     gap: 16px;
     justify-content: center;
   }
-  
+
+  .room-actions-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+
   .room-card {
     width: 300px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .room-card.selected {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+  }
+
+  .room-header-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .room-header-content mat-card-title {
+    flex: 1;
+  }
+
+  .room-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
   }
 
   .booking-modal-backdrop {
