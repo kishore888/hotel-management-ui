@@ -3,6 +3,7 @@ import { PaymentAccountService } from './payment-account.service';
 import { HotelPaymentGatewayService } from '../hotel-payment-gateway/hotel-payment-gateway.service';
 import { PaymentAccount as PaymentAccountModel } from '../../model/payment-account.model';
 import { HotelPaymentGateway } from '../../model/hotel-payment-gateway';
+import { Hotel } from '../../model/hotel.model';
 
 @Component({
   selector: 'app-payment-account',
@@ -11,7 +12,7 @@ import { HotelPaymentGateway } from '../../model/hotel-payment-gateway';
   styleUrl: './payment-account.css',
 })
 export class PaymentAccount implements OnInit {
-  paymentAccount: PaymentAccountModel = new PaymentAccountModel('', '', '', '', '', {} as HotelPaymentGateway, '', new Date(), '', new Date());
+  paymentAccount: PaymentAccountModel = new PaymentAccountModel('', '', '', '', '', {} as HotelPaymentGateway, '', new Date(), '', new Date(), '', { hotelId: '55LQ23392D299EGGVK' } as unknown as Hotel);
   hotelPaymentGateways: HotelPaymentGateway[] = [];
   isSubmitting = false;
 
@@ -43,11 +44,14 @@ export class PaymentAccount implements OnInit {
     }
 
     this.isSubmitting = true;
+    const hotelId = this.paymentAccount.hotel?.hotelId || null;
     const payload = {
       name: this.paymentAccount.name,
       code: this.paymentAccount.code,
       bankName: this.paymentAccount.bankName,
+      upiId: this.paymentAccount.upiId,
       billCount: Number(this.paymentAccount.billCount ?? 0),
+      hotel: { hotelId },
       hotelPaymentGateway: this.paymentAccount.hotelPaymentGateway?.hotelPaymentGatewayId
         ? { hotelPaymentGatewayId: this.paymentAccount.hotelPaymentGateway.hotelPaymentGatewayId }
         : null
@@ -56,7 +60,7 @@ export class PaymentAccount implements OnInit {
     this.paymentAccountService.createPaymentAccount(payload).subscribe({
       next: () => {
         form.resetForm();
-        this.paymentAccount = new PaymentAccountModel('', '', '', '', '', {} as HotelPaymentGateway, '', new Date(), '', new Date());
+        this.paymentAccount = new PaymentAccountModel('', '', '', '', '', {} as HotelPaymentGateway, '', new Date(), '', new Date(), '', { hotelId: '55LQ23392D299EGGVK' } as unknown as Hotel);
         this.isSubmitting = false;
       },
       error: (error: unknown) => {

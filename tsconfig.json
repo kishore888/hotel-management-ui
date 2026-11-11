@@ -25,7 +25,7 @@
       "ES2022",
       "dom"
     ],
-    "typeRoots": ["./src/types", "./node_modules/@types"]
+    "typeRoots": ["./src/types", "./node_modules/@types", "./node_modules"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

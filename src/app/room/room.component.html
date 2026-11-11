@@ -35,7 +35,7 @@
 	                <tbody>
                         <!-- <c:forEach items="${roomList}" var="room" varStatus="status"> -->
 			                <tr *ngFor="let room of roomList; let count = index">
-			                  <td><input type="checkbox" [checked]="isRoomSelected(room.roomId?.toString() || '')" (change)="toggleRoomSelection(room.roomId?.toString() || '')"></td>
+			                  <td><input type="checkbox" [checked]="isRoomSelected(room.roomId ? room.roomId.toString() : '')" (change)="toggleRoomSelection(room.roomId ? room.roomId.toString() : '')"></td>
 			                  <td>{{count}}</td>
 			                  <td>{{room.roomNumber}}</td>
 			                  <td>{{room.roomType.roomType}}</td>
@@ -85,10 +85,10 @@
       Book Selected Rooms ({{selectedRooms.length}})
     </button>
   </div>
-  <mat-card *ngFor="let room of roomList" class="room-card" [class.selected]="isRoomSelected(room.roomId?.toString() || '')">
+  <mat-card *ngFor="let room of roomList" class="room-card" [class.selected]="isRoomSelected(room.roomId ? room.roomId.toString() : '')">
     <mat-card-header>
       <div class="room-header-content">
-        <input type="checkbox" [checked]="isRoomSelected(room.roomId?.toString() || '')" (change)="toggleRoomSelection(room.roomId?.toString() || '')" class="room-checkbox">
+        <input type="checkbox" [checked]="isRoomSelected(room.roomId ? room.roomId.toString() : '')" (change)="toggleRoomSelection(room.roomId ? room.roomId.toString() : '')" class="room-checkbox">
         <mat-card-title>Room No. {{ room.roomNumber }}</mat-card-title>
       </div>
     </mat-card-header>

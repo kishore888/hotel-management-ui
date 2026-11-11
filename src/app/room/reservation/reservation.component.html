@@ -164,9 +164,9 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="room{{i}}">Room No</label>
-                  <select class="form-control" [id]="'room' + i" name="room{{i}}" [(ngModel)]="reservation.room" (ngModelChange)="onRoomChange(i)">
-                    <option value="">--Select Room--</option>
-                    <option *ngFor="let room of availableRooms" [value]="room" [selected]="reservation.room?.roomId === room.roomId">
+                  <select class="form-control" [id]="'room' + i" name="room{{i}}" [(ngModel)]="reservation.room" (ngModelChange)="onRoomChange(i)" [compareWith]="compareRoomById">
+                    <option [ngValue]="null">--Select Room--</option>
+                    <option *ngFor="let room of availableRooms" [ngValue]="room" [selected]="reservation.room?.roomId === room.roomId">
                       {{ room.roomNumber }} - {{ room.roomType?.roomType }} (₹{{ room.roomCharges }})
                     </option>
                   </select>
@@ -239,11 +239,30 @@
                     <input type="radio" name="paymentType" [checked]="paymentType === 'CASH'" (click)="onPaymentTypeChange('CASH')">
                     Cash
                   </label>
-                  <label *ngFor="let paymentAccount of paymentAccountList">
+                  <label *ngFor="let paymentAccount of paymentAccountList; let i = index">
                     <input type="radio" name="paymentType" [checked]="paymentType === paymentAccount.paymentAccountId" (click)="onPaymentTypeChange(paymentAccount)">
                     {{ paymentAccount.hotelPaymentGateway?.paymentGateway?.paymentGatewayName }}
+                    <span *ngIf="paymentAccount?.upiId || paymentAccount?.paymentAccount?.upiId">Online Payment (UPI / QR)</span>
                   </label>
                   <input type="hidden" name="paymentAccountId" [(ngModel)]="paymentAccountId">
+                </div>
+              </div>
+            </div>
+
+            <div class="row reservation-form-row" *ngIf="isOnlinePaymentSelected && qrCodeUrl">
+              <div class="col-md-12">
+                <div class="box box-success box-solid">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Scan QR Code to Pay</h3>
+                  </div>
+                  <div class="box-body text-center">
+                    <img [src]="qrCodeUrl" alt="UPI QR code" width="220" height="220" class="img-responsive center-block" />
+                    <p class="mt-10 mb-0"><strong>Amount:</strong> ₹{{ totalAmount || 0 }}</p>
+                    <p class="mb-10"><strong>UPI ID:</strong> {{ upiId }}</p>
+                    <button type="button" class="btn btn-success" (click)="completeOnlinePayment()">
+                      <i class="fa fa-check"></i> I have paid
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -251,7 +270,7 @@
 
           <div class="box-footer">
             <div align="center">
-              <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+              <button type="submit" class="btn btn-primary" id="submit" *ngIf="!isOnlinePaymentSelected">Submit</button>
               <input type="button" class="btn btn-warning" value="Back" onclick="history.go(-1);"/>
             </div>
             <div *ngIf="submissionMessage" class="text-center mt-10" [ngClass]="submissionMessage.includes('failed') ? 'text-danger' : 'text-success'">

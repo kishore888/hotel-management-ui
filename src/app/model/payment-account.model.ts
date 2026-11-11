@@ -1,3 +1,4 @@
+import { Hotel } from "./hotel.model";
 import { HotelPaymentGateway } from "./hotel-payment-gateway";
 
 export class PaymentAccount {
@@ -11,7 +12,9 @@ export class PaymentAccount {
         createdBy: String,
         createdOn: Date,
         updatedBy: String,
-        updatedOn: Date
+        updatedOn: Date,
+        upiId?: String,
+        hotel?: Hotel
     ) {
         this.paymentAccountId = paymentAccountId;
         this.name = name;
@@ -23,6 +26,8 @@ export class PaymentAccount {
         this.createdOn = createdOn;
         this.updatedBy = updatedBy;
         this.updatedOn = updatedOn;
+        this.upiId = upiId || '';
+        this.hotel = hotel || {} as Hotel;
     }
 
     paymentAccountId: String;
@@ -31,8 +36,10 @@ export class PaymentAccount {
     bankName: String;
     billCount: String;
     hotelPaymentGateway: HotelPaymentGateway;
+    hotel: Hotel;
     createdBy: String;
     createdOn: Date;
     updatedBy: String;
     updatedOn: Date;
+    upiId: String;
 }

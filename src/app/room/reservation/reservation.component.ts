@@ -57,7 +57,11 @@ export class ReservationComponent implements OnDestroy {
   webcamError = '';
   submissionMessage = '';
   isWebcamMaximized = false;
+  isOnlinePaymentSelected = false;
+  qrCodeUrl = '';
   private stream: MediaStream | null = null;
+  upiId = '';
+  private readonly payeeName = 'Hotel Booking';
 
   constructor(private reservationService: ReservationService, private cdr: ChangeDetectorRef,
     private paymentAccountService: PaymentAccountService,
@@ -224,23 +228,68 @@ export class ReservationComponent implements OnDestroy {
     this.balanceAmount = this.totalCharges - this.totalAmount;
   }
 
+  private getSelectedPaymentAccount(paymentAccountId: string | null | undefined): any {
+    if (!paymentAccountId) {
+      return null;
+    }
+
+    const normalizedId = String(paymentAccountId);
+    return this.paymentAccountList.find((account: any) => String(account.paymentAccountId) === normalizedId) || null;
+  }
+
+  private getDefaultOnlinePaymentAccount(): any {
+    return this.paymentAccountList.find((account: any) => {
+      const upiId = account?.upiId || account?.paymentAccount?.upiId || '';
+      return !!upiId;
+    }) || null;
+  }
+
   onPaymentTypeChange(selected: any): void {
     console.log('Payment type changed:', selected);
+
     if (selected === 'CASH') {
       this.paymentAccountId = '';
       this.paymentType = 'CASH';
-    } else {
-      console.log('Payment type paymentAccountId:', selected.paymentAccountId);
-      console.log('Payment type hotelPaymentGatewayId:', selected.hotelPaymentGateway?.hotelPaymentGatewayId);
-      this.paymentAccountId = selected.paymentAccountId || '';
-      this.paymentType = selected.hotelPaymentGateway?.hotelPaymentGatewayId || 'online';
-      this.hotelPaymentGatewayId = selected.hotelPaymentGateway?.hotelPaymentGatewayId || '';
+      this.hotelPaymentGatewayId = '';
+      this.isOnlinePaymentSelected = false;
+      this.upiId = '';
+      this.qrCodeUrl = '';
+      return;
     }
+
+    const normalizedSelected = typeof selected === 'object' && selected !== null ? selected : null;
+    const selectedPaymentId = normalizedSelected?.paymentAccountId || this.paymentAccountId || '';
+    const selectedPaymentAccount = this.getSelectedPaymentAccount(selectedPaymentId) || this.getDefaultOnlinePaymentAccount();
+    const paymentAccountName = selectedPaymentAccount?.paymentAccountName || selectedPaymentAccount?.hotelPaymentGateway?.paymentGateway?.paymentGatewayName || '';
+    const gatewayName = selectedPaymentAccount?.hotelPaymentGateway?.paymentGateway?.paymentGatewayName || normalizedSelected?.hotelPaymentGateway?.paymentGateway?.paymentGatewayName || '';
+    const moneyTransferAccount = normalizedSelected || selectedPaymentAccount;
+
+    this.paymentAccountId = selectedPaymentAccount?.paymentAccountId || selectedPaymentId || '';
+    this.hotelPaymentGatewayId = selectedPaymentAccount?.hotelPaymentGateway?.hotelPaymentGatewayId || normalizedSelected?.hotelPaymentGateway?.hotelPaymentGatewayId || '';
+    this.upiId = moneyTransferAccount?.upiId || moneyTransferAccount?.paymentAccount?.upiId || '';
+    this.paymentType = selected === 'ONLINE' || !!this.upiId ? 'ONLINE' : (this.hotelPaymentGatewayId || 'ONLINE');
+
+    const isOnlineGateway = selected === 'ONLINE' || !!this.upiId || /online|upi|phonepe|gpay|qr/i.test(gatewayName || paymentAccountName) || /online|upi|qr/i.test(String(this.paymentAccountId || ''));
+    this.isOnlinePaymentSelected = isOnlineGateway;
+
+    if (!this.isOnlinePaymentSelected) {
+      this.qrCodeUrl = '';
+      return;
+    }
+
+    if (!this.upiId && !this.paymentAccountId && this.paymentAccountList.length > 0) {
+      const fallbackAccount = this.getDefaultOnlinePaymentAccount();
+      this.paymentAccountId = fallbackAccount?.paymentAccountId || '';
+      this.hotelPaymentGatewayId = fallbackAccount?.hotelPaymentGateway?.hotelPaymentGatewayId || '';
+      this.upiId = fallbackAccount?.upiId || fallbackAccount?.paymentAccount?.upiId || '';
+    }
+
+    this.buildOnlinePaymentQrCode();
   }
 
   addRoom(): void {
     this.reservationList.push({
-      room: { roomId: '', roomNumber: '', roomCharges: 0 },
+      room: null,
       reservationId: '',
       checkIn: '',
       checkOut: '',
@@ -255,12 +304,18 @@ export class ReservationComponent implements OnDestroy {
     }
   }
 
+  compareRoomById(room1: any, room2: any): boolean {
+    return room1 && room2 ? room1.roomId === room2.roomId : room1 === room2;
+  }
+
   onRoomChange(index: number): void {
     const room = this.reservationList[index].room;
     if (room && room.roomCharges) {
       this.reservationList[index].amount = room.roomCharges;
-      this.calculateTotal();
+    } else {
+      this.reservationList[index].amount = 0;
     }
+    this.calculateTotal();
   }
 
   makeAdditionalPayment(): void {
@@ -287,19 +342,30 @@ export class ReservationComponent implements OnDestroy {
   }
 
   processOnlinePayment(amount: number): void {
-    // This would call the payment gateway for online payments
+    this.buildOnlinePaymentQrCode();
     console.log('Processing online payment of:', amount);
-    // Implementation would depend on your payment gateway integration
   }
 
-  private formatDateToBackend(dateString: string): string {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toISOString();
+  buildOnlinePaymentQrCode(): void {
+    const amount = Number(this.totalAmount || this.balanceAmount || 0);
+    const selectedPaymentAccount = this.getSelectedPaymentAccount(this.paymentAccountId);
+    const activeUpiId = (this.upiId
+      || selectedPaymentAccount?.upiId
+      || selectedPaymentAccount?.paymentAccount?.upiId
+      || (this.paymentAccountList.length === 1 ? this.paymentAccountList[0]?.upiId : '')
+      || '').trim();
+
+    if (!amount || amount <= 0 || !activeUpiId) {
+      this.qrCodeUrl = '';
+      return;
+    }
+
+    const paymentPayload = `upi://pay?pa=${encodeURIComponent(activeUpiId)}&pn=${encodeURIComponent(this.payeeName)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent('Hotel Booking - Room reservation')}`;
+    this.qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(paymentPayload)}`;
   }
 
-  onSubmit(): void {
-    const payload = {
+  buildReservationPayload(): any {
+    return {
       customer: {
         firstName: this.customer.firstName,
         lastName: this.customer.lastName,
@@ -334,16 +400,18 @@ export class ReservationComponent implements OnDestroy {
         paymentAccountId: this.paymentAccountId
       },
       hotelPaymentGatewayId: this.hotelPaymentGatewayId,
-      paymentType: this.paymentType
+      paymentType: this.isOnlinePaymentSelected ? 'ONLINE' : this.paymentType
     };
+  }
+
+  submitReservation(): void {
+    const payload = this.buildReservationPayload();
 
     this.reservationService.createReservation(payload).subscribe({
       next: (response) => {
         console.log('Reservation response', response);
-        // Check if response is HTML (PayU payment form)
         const responseBody = response.body;
         if (responseBody && typeof responseBody === 'string' && responseBody.includes('<form')) {
-          // Open PayU payment in a new window
           const newWindow = window.open('', '_blank');
           if (newWindow) {
             newWindow.document.write(responseBody);
@@ -362,6 +430,39 @@ export class ReservationComponent implements OnDestroy {
         this.submissionMessage = 'Reservation submission failed. Please try again.';
       }
     });
+  }
+
+  completeOnlinePayment(): void {
+    this.isOnlinePaymentSelected = true;
+    this.paymentType = 'ONLINE';
+    this.submissionMessage = 'Payment successful. Booking is being confirmed...';
+
+    this.submitReservation();
+
+    setTimeout(() => {
+      this.router.navigate(['/room'], {
+        state: {
+          paymentStatus: 'success',
+          message: 'Payment successful and room booked.'
+        }
+      });
+    }, 500);
+  }
+
+  private formatDateToBackend(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString();
+  }
+
+  onSubmit(): void {
+    if (this.isOnlinePaymentSelected) {
+      this.buildOnlinePaymentQrCode();
+      this.submissionMessage = 'Scan the QR code to complete payment. After the payment is done, click “I have paid”.';
+      return;
+    }
+
+    this.submitReservation();
   }
 
   ngOnDestroy(): void {
